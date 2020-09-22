@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='이벤트 조회'">
+<head>
+    <title th:text="${metaTit}">이벤트 조회</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="device_con01" id="eventRead">
+        <div class="inner">
+            <div class="table_wrap">
+                <h4>이벤트 상세정보</h4>
+                <table>
+                    <colgroup>
+                        <col style="width:160px;" />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>EVENT 구분</th>
+                            <td v-text="comCdVo.evtOccrDivMap[evtVo.evntOccrDiv]"></td>
+                        </tr>
+                        <tr>
+                            <th>EVENT ID</th>
+                            <td v-text="evtVo.evntId"></td>
+                        </tr>
+                        <tr>
+                            <th>EVENT 이름</th>
+                            <td v-text="evtVo.evntNm"></td>
+                        </tr>
+                        <tr>
+                            <th>연관 디바이스</th>
+                            <td v-text="evtVo.devName"></td>
+                        </tr>
+                        <tr>
+                            <th>이벤트 발생조건</th>
+                            <td>
+                                <div style="display:none;" v-show="evtVo.evntOccrDiv == 'A'">
+                                    {{evtVo.evntOccrCondVal}} {{comCdVo.evtOccrCondDivMap[evtVo.evntOccrCondDiv]}}
+                                </div>
+                                <div class="table_wrap list" style="display:none;" v-show="evtVo.evntOccrDiv == 'B'">
+                                    <table style="width:500px;">
+                                        <colgroup>
+                                            <col />
+                                            <col />
+                                            <col />
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th class="text_center">측정항목</th>
+                                                <th class="text_center">비교코드</th>
+                                                <th class="text_center">비교값</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(obsRow, index) in obsList" v-bind:key="obsRow.evntObsSeq">
+                                                <td v-text="obsRow.obsItemNm"></td>
+                                                <td v-text="obsRow.compareName"></td>
+                                                <td v-text="obsRow.compareValue"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="select_input_box_btn">
+                                        <a href="#and" class="and_cd" v-if="evtVo.andOrCode == 'AND'" onclick="return false;">AND</a>
+                                        <a href="#or" class="or_cd" v-if="evtVo.andOrCode == 'OR'" onclick="return false;">OR</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">SMS Send</th>
+                            <td>{{evtVo.recptnPhonNo}} &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td v-bind:inner-html.prop="evtVo.smsMsg + '&nbsp;' | enterToBr"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table_wrap list mt-40">
+                <h4>이벤트 로그</h4>
+                <table>
+                    <colgroup>
+                        <col style="width:120px;" />
+                        <col style="width:230px;" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>순번</th>
+                            <th>발생 시간</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in logList" v-bind:key="item.seq">
+                            <td v-text="logVo.rowNum - index"></td>
+                            <td v-text="item.cretDt"></td>
+                            <td v-text="item.mngContent"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager_wrap" v-if="logVo.totCnt > 0">
+                <ul>
+                    <li class="prev"><a href="#prev" v-on:click.prevent="onLogPageMove(logVo.prevPage)"><img src="/img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="idx in logVo.naviPageList" v-bind:class="{ on: idx == logVo.curPage }">
+                        <a href="#page" v-on:click.prevent="onLogPageMove(idx)" v-text="idx"></a>
+                    </li>
+                    <li class="next"><a href="#next" v-on:click.prevent="onLogPageMove(logVo.nextPage)"><img src="/img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+
+            <div class="btn_wrap_type02">
+                <div class="left">
+                    <a href="#update" class="border" v-on:click.prevent="onEvtUptMove">수정</a>
+                    <a href="#delete" class="gray" v-on:click.prevent="deleteEvt">삭제</a>
+                    <a href="#list" v-on:click.prevent="onEvtListMove">목록</a>
+                </div>
+                <div class="right">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argEvntId"  name="argEvntId"  th:value="${param.evntId}" />
+        <input type="hidden" id="argCurPage" name="argCurPage" th:value="${param.curPage}" />
+    </form>
+
+    <!-- 회원정보 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <form id="memberForm" name="memberForm" method="get">
+            <input type="hidden" id="authMbrSeq" name="authMbrSeq" th:value="${#authentication.principal.account.mbrSeq}" />
+        </form>
+    </th:block>
+    <!-- 회원정보 -->
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/management/event/eventCodeMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/management/event/eventDetailMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/management/event/eventRead.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

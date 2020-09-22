@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='제품상세'">
+<head>[
+    <title th:text="${metaTit}">제품상세</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="productRead" class="product_read_con01">
+        <div class="inner">
+            <div class="table_wrap mt-40">
+                <div class="top_btn">
+                    <h4>제품 상세정보</h4>
+                </div>
+                <div class="after mt-20 mb-20">
+                    <div class="left type02 w300">
+                        <i v-if="product.hasImage"><img :src="product.prdtImgPath" alt=""></i>
+                        <i v-else ><img src="" alt=""></i>
+
+                    </div>
+                    <div class="right type02 w300right">
+                        <table class="mt-0 mb-0">
+                            <colgroup>
+                                <col width="180px"/>
+                                <col width="*"/>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>디바이스 이름</th>
+                                <td v-text="product.prdtName"></td>
+                            </tr>
+                            <tr>
+                                <th>글쓴이</th>
+                                <td v-text="product.userNm"></td>
+                            </tr>
+                            <tr>
+                                <th>종류</th>
+                                <td v-text="product.prdtTypeName"></td>
+                            </tr>
+                            <tr>
+                                <th>측정 항목</th>
+                                <td v-text="product.obsItemName"></td>
+                            </tr>
+                            <tr>
+                                <th>등록일</th>
+                                <td v-text="product.formattedCretDt"></td>
+                            </tr>
+                            <tr>
+                                <th>첨부파일</th>
+                                <td>
+                                    <a :href="product.attachedFilePath"  class="ml-0"><img src="../../img/catalog_icon.png" alt="">카탈로그</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table_wrap mt-20">
+                <div class="title_te">
+                    <h5><i><img src="../../img/status_exclamation_mark.png" alt=""></i>디바이스 소개</h5>
+                    <p v-text="product.prdtContents"></p>
+                </div>
+            </div>
+
+            <div v-for="(comment, index) in commentList" class="comment_list">
+                <dl>
+                    <dd>
+                        <div class="top">
+                            <p v-text="comment.userNm"></p>
+                            <span v-text="comment.formattedCretDt"></span>
+                            <div class="disp_in_block mg_left_10" v-if="comment.myComment || AuthUtil.getAdminYn()">
+                                <a href="#update" class="btn_basic" v-bind:id="'prdtCmtToggleBtn' + comment.prdtCommentSeq" v-on:click.prevent="toggleComment(comment.prdtCommentSeq)">수정</a>
+                                <a href="#delete" class="btn_basic" v-on:click.prevent="deleteComment(comment.prdtCommentSeq)">삭제</a>
+                            </div>
+
+                        </div>
+                        <div class="text">
+                            <div class="comment_input"  v-bind:id="'prdtCmtUptWrap' + comment.prdtCommentSeq"  style="display:none; margin:0;">
+                                <textarea v-bind:id="'prdtCmtUptCont' + comment.prdtCommentSeq" v-text="comment.prdtCommentContent"  cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
+                                <a href="#comment" v-on:click.prevent="modifyComment(comment.prdtCommentSeq)">댓글 수정</a>
+                            </div>
+                            <p v-bind:id="'prdtCmtTxtWrap' + comment.prdtCommentSeq" v-text="comment.prdtCommentContent"></p>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <div class="comment_input">
+                <textarea name="" id="" cols="30" rows="10" v-model="prdtCommentContent" placeholder="댓글은 로그인한 후에 쓸 수 있습니다."></textarea>
+                <a href="javascript:;" v-on:click="writeComment">댓글 쓰기</a>
+            </div>
+            <div class="btn_wrap_type02">
+                <div class="left">
+                    <a href="javascript:;" v-on:click="modifyProduct" class="border">수정</a>
+                    <a href="javascript:;" v-on:click="deleteProduct" class="gray">삭제</a>
+                    <a href="list">목록</a>
+                </div>
+                <div class="right">
+                    <a href="javascript:;" v-on:click.prevent="toWriteProduct" class="blue border"><img src="../../img/btns_blue_plus.png" alt="">제품 등록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argPrdtSeq" name="argPrdtSeq" th:value="${param.prdtSeq}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/product/read.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/testbedLayout}"
+	  th:with="metaTit='신청 프로세스'">
+<head>
+	<title th:text="${metaTit}">신청 프로세스</title>
+	<link rel="stylesheet" href="../css/jquery.datetimepicker.css" type="text/css" media="all" />
+
+	<!-- user script -->
+	<th:block layout:fragment="user_script">
+		<script type="text/javascript" th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/plugin/jquery/jquery.datetimepicker.full.js}"></script>
+		<script type="text/javascript" th:src="@{/static/js/testbed/write.js}"></script>
+	</th:block>
+	<!-- //user script -->
+</head>
+<body>
+		<!-- content -->
+<th:block layout:fragment="content">
+	<div class="wrap">
+		<!-- header -->
+		<!-- header //-->
+		<div class="content">
+			<div class="testbed_process_con01">
+				<div class="inner">
+					<div class="text">
+						<a href="/testbed/write">테스트 베드 신청 <img src="../img/testbed_process_con01_arrow02.png" alt="화살표"></a>
+						<p><b>'테스트베드 신청하기' 버튼을 누르면</b> 신청 화면으로 이동됩니다.</p>
+					</div>
+				</div>
+			</div>
+			<div class="testbed_process_con02">
+				<div class="inner">
+					<dl>
+						<dt>
+							<h5>테스트베드 신청</h5>
+							<i><img src="../img/testbed_process_con02_icon01.png" alt="테스트베드 신청"></i>
+						</dt>
+						<dd>
+							<span>01</span>
+							<h6>테스트베드 신청 <a href="/testbed/write"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>테스트베드 신청 버튼을 클릭하여 신청서를 작성합니다.</p>
+							<h6>신청 현황 확인 <a href="/mypage/status/list"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>마이페이지를 통해 신청 현황을 확인합니다.</p>
+							<h6>디바이스 배치</h6>
+							<p>테스트할 디바이스 위치를 지정하여 배치합니다.</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>
+							<h5>디바이스 연동</h5>
+							<i><img src="../img/testbed_process_con02_icon02.png" alt="디바이스 연동"></i>
+						</dt>
+						<dd>
+							<span>02</span>
+							<h6>프로토콜 규격 확인 <a href="/testbed/intro?gbn=1"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>스마트시티 테스트베드에서 지원 가능한 프로토콜 규격을 확인합니다.</p>
+							<h6>디바이스 연결</h6>
+							<p>프로토콜 규격에 따라 디바이스 연결합니다.</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>
+							<h5>디바이스 관리</h5>
+							<i><img src="../img/testbed_process_con02_icon03.png" alt="디바이스 관리"></i>
+						</dt>
+						<dd>
+							<span>03</span>
+							<h6>디바이스 등록 <a href="/management/device/write"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>디바이스 정보를 입력하여 등록합니다.</p>
+							<h6>측정 항목 설정 <a href="/management/device/list"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>디바이스의 측정 항목을 설정합니다.</p>
+							<h6>이벤트 설정 <a href="/management/event/write"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>특정 조건에 부합하는 상황 발생 시 확인 가능하도록 이벤트를 설정합니다.</p>
+						</dd>
+					</dl>
+					<dl>
+						<dt>
+							<h5>미세먼지 모니터링</h5>
+							<i><img src="../img/testbed_process_con02_icon04.png" alt="미세먼지 모니터링"></i>
+						</dt>
+						<dd>
+							<span>04</span>
+							<h6>실시간 모니터링 <a href="/finedust/monitoring"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>테스트 디바이스의 실시간 측정데이터를 상용 디바이스의 측정데이터과 비교하여 모니터링합니다.</p>
+							<h6>측정값 보기 <a href="/finedust/statistics"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>기간별 분/시/일/1주일/30일 단위의 측정 값 추이를 확인하고, 필요한 데이터를 다운로드합니다.</p>
+							<h6>디바이스 상태 <a href="/finedust/state"><img src="../img/testbed_process_con02_arrow.png" alt="화살표"></a></h6>
+							<p>디바이스의 데이터 수집 건수, 성공율, 이벤트 발생 이력 등의 상태 정보를 확인합니다.</p>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+<!-- //content -->
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+</body>
+</html>

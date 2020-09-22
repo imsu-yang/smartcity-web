@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/homeLayout}"
+      th:with="metaTit='스마트시티 테스트베드'">
+<head>
+    <script th:src="@{http://map.vworld.kr/js/vworldMapInit.js.do(version=2.0, apiKey=${vworldKey})}"></script>
+    <script>
+        $(() => $("#vmap").on("mousewheel", e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }));
+    </script>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <!-- main_con01 -->
+    <div class="section main_con01" id="section02">
+        <div id="vmap" class="map_box">
+            <div class="state_label">
+                <ul>
+                    <li><i class="step04"></i>매우나쁨</li>
+                    <li><i class="step03"></i>나쁨</li>
+                    <li><i class="step02"></i>보통</li>
+                    <li><i class="step01"></i>좋음</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text_box">
+            <div class="scroll">
+                <div class="top">
+                    <a href="javascript:;"><img src="/img/dot_more_btn.png" alt="버튼"></a>
+                    <div class="center">
+                        <i><img src="/img/air_top_icon.png" alt="AIR"></i>
+                        <h4 class="roboto">SIHEUNG CITY</h4>
+                    </div>
+                </div>
+                <dl class="type01 color01">
+                    <dt>
+                        <p>시흥시 미세먼지 측정기</p>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <div class="center" >
+                                    <p>고정형</p>
+                                    <i><img src="/img/air_list_icon01.png" alt="고정형"></i>
+                                    <span class="roboto" v-text="stats.device.static">111</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>이동형</p>
+                                    <i><img src="/img/air_list_icon02.png" alt="이동형"></i>
+                                    <span class="roboto" v-text="stats.device.move">215</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>휴대형</p>
+                                    <i><img src="/img/air_list_icon03.png" alt="휴대형"></i>
+                                    <span class="roboto" v-text="stats.device.port">107</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="type01 color02">
+                    <dt>
+                        <p>미세먼지 측정기 테스트 현황</p>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <div class="center" >
+                                    <p>고정형</p>
+                                    <i><img src="/img/air_list_icon01.png" alt="고정형"></i>
+                                    <span class="roboto" v-text="stats.testDevice.static">111</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>이동형</p>
+                                    <i><img src="/img/air_list_icon02.png" alt="이동형"></i>
+                                    <span class="roboto" v-text="stats.testDevice.move">215</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>휴대형</p>
+                                    <i><img src="/img/air_list_icon03.png" alt="휴대형"></i>
+                                    <span class="roboto" v-text="stats.testDevice.port">107</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="type02">
+                    <dt>
+                        <p>나라별 테스트 진행 현황</p>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <li>
+                                <div class="center">
+                                    <p>국내</p>
+                                    <i><img src="/img/air_language_korea.png" alt="태극기"></i>
+                                    <span class="roboto" v-text="stats.country.korea">58</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>미국</p>
+                                    <i><img src="/img/air_language_usa.png" alt="성조기"></i>
+                                    <span class="roboto" v-text="stats.country.usa">24</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>베트남</p>
+                                    <i><img src="/img/air_language_vietnam.png" alt="황성주기"></i>
+                                    <span class="roboto" v-text="stats.country.vietnam">10</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>인도네시아</p>
+                                    <i><img src="/img/air_language_indonesia.png" alt="상사카메라푸티"></i>
+                                    <span class="roboto" v-text="stats.country.indonesia">26</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="center">
+                                    <p>대만</p>
+                                    <i><img src="/img/air_language_taiwan.png" alt="청천백일기"></i>
+                                    <span class="roboto" v-text="stats.country.taiwan">5</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <!-- main_con01 //-->
+
+    <div class="section main_con02" id="section03">
+        <div class="inner">
+            <div class="top left">
+                <h3>NOTICE</h3>
+                <a th:href="@{/community/notice/list}"><img src="/img/notice_more_btn.png" alt="더보기"></a>
+            </div>
+            <ul class="notice">
+                <li v-for="(item, index) in notiList" v-bind:key="item.noticeSeq">
+                    <a v-bind:href="'/community/notice/read?noticeSeq=' + item.noticeSeq">
+                        <h5 v-if="item.noticeTag">공지사항</h5>
+                        <h6 v-text="item.noticeTitle"></h6>
+                        <p v-text="item.noticeContents"></p>
+                        <span v-text="item.cretDt"></span>
+                    </a>
+                </li>
+            </ul>
+            <div class="top">
+                <h3>FORUM</h3>
+            </div>
+            <ul class="banner">
+                <li v-for="(item, index) in frumGrpList" v-bind:key="item.forumGroupSeq">
+                    <a v-bind:href="'/community/forum/list?forumGroupSeq=' + item.forumGroupSeq">
+                        <img v-bind:src="'/img/forum_img0' + (index + 1) + '.jpg'" v-bind:alt="item.forumGroupTitle" onerror="this.src='/img/no_image.png';">
+                        <div class="hover_box">
+                            <div class="center">
+                                <i><img src="/img/hover_plus_btn.png" alt="MORE"></i>
+                                <p class="roboto">MORE</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/home/index.js}"></script>
+</th:block>
+</body>
+</html>

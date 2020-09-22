@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='포럼'">
+<head>
+    <title th:text="${metaTit}">포럼</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="forumIntro">
+        <div class="forum_intro_con01">
+            <div class="inner">
+                <div class="forum_box">
+                    <h4>개설된 포럼</h4>
+                    <div class="after">
+                        <dl v-for="(item, index) in frumGrpList" v-bind:key="item.forumGroupSeq" v-on:click="onFrumListMove(item.forumGroupSeq)">
+                            <dt><img v-bind:src="item.forumGroupImgPath" alt="" onerror="this.src='/img/no_image.png';" /></dt>
+                            <dd>
+                                <span>COMMUNITY</span>
+                                <h5 v-text="item.forumGroupTitle"></h5>
+                                <a href="#detail" class="forum_more_btn" onclick="return false;"></a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="forum_intro_con02">
+            <div class="inner">
+                <div class="after">
+                    <div class="w50">
+                        <div class="table_wrap list noBg fixed">
+                            <div class="top_btn">
+                                <h4 class="left">추천글</h4>
+                                <div class="right">
+                                    <a href="#list" class="mt-10" v-on:click.prevent="onFrumListMove('')"><img src="/img/table_wrap_plus_btn.png" alt=""></a>
+                                </div>
+                            </div>
+                            <table>
+                                <colgroup>
+                                    <col width="15%" />
+                                    <col width="25%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>순번</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>작성일</th>
+                                        <th>추천수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in frumRcmdList" v-bind:key="item.forumGroupSeq + '_' + item.forumSeq" v-on:click="onFrumReadMove(item.forumGroupSeq, item.forumSeq)" class="cursor_pointer">
+                                        <td v-text="index + 1"></td>
+                                        <td class="overflow-text text_left" v-text="item.forumTitle"></td>
+                                        <td v-text="item.cretrId"></td>
+                                        <td v-text="item.cretDt"></td>
+                                        <td v-bind:text-content.prop="item.recmdCnt | formatNumberComa"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="w50">
+                        <div class="table_wrap list noBg fixed">
+                            <div class="top_btn">
+                                <h4 class="left">인기글</h4>
+                                <div class="right">
+                                    <a href="#list" class="mt-10" v-on:click.prevent="onFrumListMove('')"><img src="/img/table_wrap_plus_btn.png" alt=""></a>
+                                </div>
+                            </div>
+                            <table>
+                                <colgroup>
+                                    <col width="15%" />
+                                    <col width="25%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                    <col width="20%" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>순번</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>작성일</th>
+                                        <th>추천수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in frumHitList" v-bind:key="item.forumGroupSeq + '_' + item.forumSeq" v-on:click="onFrumReadMove(item.forumGroupSeq, item.forumSeq)" class="cursor_pointer">
+                                        <td v-text="index + 1"></td>
+                                        <td class="overflow-text text_left" v-text="item.forumTitle"></td>
+                                        <td v-text="item.cretrId"></td>
+                                        <td v-text="item.cretDt"></td>
+                                        <td v-bind:text-content.prop="item.recmdCnt | formatNumberComa"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/forum/forumIntro.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

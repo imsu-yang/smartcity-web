@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='디바이스 관리'">
+<head>
+    <title th:text="${metaTit}">디바이스 관리</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="deviceRead">
+        <div class="device_con01">
+        <div class="inner">
+            <div class="table_wrap mt-40">
+                <div class="top_btn">
+                    <h4 class="left">디바이스 정보</h4>
+                    <div class="right">
+                        <a href="javascript:;" class="type02 border" v-on:click="modifyDevice">수정</a>
+                        <a href="javascript:;" class="type02" v-on:click="deleteDevice">삭제</a>
+                    </div>
+                </div>
+                <div class="after mt-20 mb-20">
+                    <div v-if="device.hasImage" class="left type02">
+                        <img :src="device.devImgPath" alt="">
+                    </div>
+                    <!-- 임시 이미지 지정 -->
+                    <div v-else style="width: auto; height: auto; max-width: 0px; max-height: 0px;">
+                        <img src="/img/devImg/dev01.png" alt="">
+                    </div>
+                    <div class="right type02">
+                        <table class="mt-0 mb-0">
+                            <colgroup>
+                                <col width="180px"/>
+                                <col width="*"/>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>디바이스 이름</th>
+                                <td v-text="device.devName"></td>
+                            </tr>
+                            <tr>
+                                <th>디바이스 ID</th>
+                                <td v-text="device.devId"></td>
+                            </tr>
+                            <tr>
+                                <th>디바이스 패스워드</th>
+                                <td v-text="device.devPassword"></td>
+                            </tr>
+                            <tr>
+                                <th>디바이스 모델명</th>
+                                <td v-text="device.userDefName"></td>
+                            </tr>
+                            <tr>
+                                <th>제조사</th>
+                                <td v-text="device.manufacturerName"></td>
+                            </tr>
+                            <tr>
+                                <th>프로토콜 유형</th>
+                                <td v-text="device.protocolRuleName"></td>
+                            </tr>
+                            <tr>
+                                <th>게이트웨이 연결 ID</th>
+                                <td v-text="device.gatewayConnId"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table_wrap list mt-40">
+                <div class="top_btn">
+                    <h4 class="left">측정항목</h4>
+                    <a href="javascript:;" class="right mt-10" v-on:click="showObsInfoPopup();"><img src="../../img/table_wrap_plus_btn.png" alt=""></a>
+                </div>
+                <table>
+                    <colgroup>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>측정항목</th>
+                        <th>단위</th>
+                        <th>등록일시</th>
+                        <th>관리</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(devObsInfo, index) in devObsInfos">
+                        <td v-text="devObsInfo.obsItemName"></td>
+                        <td v-text="devObsInfo.unitType"></td>
+                        <td v-text="devObsInfo.formattedRegisteDt"></td>
+                        <td>
+                            <a href="javascript:;" v-on:click="modifyObsInfo(index);" class="type02 border">수정</a>
+                            <a href="javascript:;" v-on:click="deleteObsInfo(devObsInfo.obsItemId);" class="type02">삭제</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table_wrap list mt-40">
+                <div class="top_btn">
+                    <h4 class="left">이벤트</h4>
+                    <a href="javascript:;" class="right mt-10"><img src="../../img/table_wrap_plus_btn.png" alt=""></a>
+                </div>
+                <table>
+                    <colgroup>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>측정항목</th>
+                        <th>이벤트 이름</th>
+                        <th>등록일시</th>
+                        <th>STATUS</th>
+                        <th>관리</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>abcde00001</td>
+                        <td>PM10 기준치 Over</td>
+                        <td>2020-05-11 15:22:33</td>
+                        <td>ON</td>
+                        <td>
+                            <a href="javascript:;" class="type02 border">수정</a>
+                            <a href="javascript:;" class="type02">삭제</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcde00001</td>
+                        <td>PM10 기준치 Over</td>
+                        <td>2020-05-11 15:22:33</td>
+                        <td>ON</td>
+                        <td>
+                            <a href="javascript:;" class="type02 border">수정</a>
+                            <a href="javascript:;" class="type02">삭제</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcde00001</td>
+                        <td>PM10 기준치 Over</td>
+                        <td>2020-05-11 15:22:33</td>
+                        <td>ON</td>
+                        <td>
+                            <a href="javascript:;" class="type02 border">수정</a>
+                            <a href="javascript:;" class="type02">삭제</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
+        <div class="popup_bg"  v-bind:style="{ display: showPopup }"></div>
+        <!-- 측정 항목 생성 -->
+        <div class="popup_box" v-bind:style="{ display: showPopup }">
+            <div class="top">
+                <p>측정 항목 생성</p>
+                <a href="javascript:;" class="popup_x_btn" v-on:click="hideObsInfoPopup();"><img src="../../img/popup_x_btn.png" alt=""></a>
+            </div>
+            <div class="text">
+                <div class="table_wrap">
+                    <table>
+                        <colgroup>
+                            <col width="110px"/>
+                            <col width="*"/>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th>측정항목</th>
+                            <td>
+                                <select name="obsItem" class="w100p" v-model="popup.obsItem">
+                                    <option v-for="item in obsItems" v-bind:value="item.cdDtlKey.dtlCd" v-text="item.dtlCdNm"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>단위</th>
+                            <td>
+                                <select name="obsUnit" class="w100p" v-model="popup.obsUnit">
+                                    <option v-for="item in obsUnits" v-bind:value="item.dtlCdNm" v-text="item.dtlCdNm"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn_wrap sm">
+                    <a href="javascript:;" class="blue" v-on:click="addDevObsInfo()" >확인</a>
+                    <a href="javascript:;" class="" v-on:click="hideObsInfoPopup();">취소</a>
+                </div>
+            </div>
+        </div>
+        <!-- popup //-->
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argDevId" name="argDevId" th:value="${param.devId}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/management/device/read.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

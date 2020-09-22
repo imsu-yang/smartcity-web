@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='신청 현황'">
+<head>[
+    <title th:text="${metaTit}">신청 현황</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="statusRead" class="mypage_status_read_con01">
+        <div class="inner">
+            <div class="status_step">
+                <ul>
+                    <li><a href="javascript:;"><span>신청 완료</span></a></li>
+                    <li class="on"><a href="javascript:;"><span>검토중</span></a></li>
+                    <li><a href="javascript:;"><span>완료</span></a></li>
+                </ul>
+            </div>
+            <div class="table_wrap">
+                <h4>신청 내용</h4>
+                <table>
+                    <colgroup>
+                        <col width="140px"/>
+                        <col width="*"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>날짜</th>
+                        <td v-text="content.formattedRegstDt"></td>
+                    </tr>
+                    <tr>
+                        <th>이용자</th>
+                        <td v-text="content.regstName"></td>
+                    </tr>
+                    <tr>
+                        <th>핸드폰 번호</th>
+                        <td v-text="content.rphonNo"></td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td v-text="content.remail"></td>
+                    </tr>
+                    <tr>
+                        <th>기업명</th>
+                        <td v-text="content.companyName">kth</td>
+                    </tr>
+                    <tr>
+                        <th>이용목적</th>
+                        <td v-text="content.usePurpose">내용</td>
+                    </tr>
+                    <tr>
+                        <th>진행 상태</th>
+                        <td><p class="red">검토 진행 중</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table_wrap mt-60">
+                <h4>검토 의견 보기</h4>
+                <div class="title_te">
+                    <h5><i><img src="../../img/status_exclamation_mark.png" alt=""></i>담당자 의견</h5>
+                    <p>신청하신 날짜에 테스트 개방이 어렵습니다.</p>
+                </div>
+            </div>
+            <div class="comment_list">
+                <dl v-for="item in commentList" v-bind:class="{admin: content.cretrId != item.cretrId}">
+                    <dt>
+                        <div class="name" v-if="content.cretrId == item.cretrId">신청인</div>
+                        <div class="name" v-else>담당자</div>
+                    </dt>
+                    <dd>
+                        <div class="top">
+                            <p v-text="item.cretrId"></p>
+                            <span v-text="item.formattedCretDt"></span>
+                        </div>
+                        <div class="text">
+                            <p v-text="item.revwOpn"></p>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <div class="comment_input">
+                <textarea name="" id="" v-model="comment" cols="30" rows="10" placeholder="텍스트를 입력해주세요."></textarea>
+                <a href="javascript:;" v-on:click="writeComment();">의견 쓰기</a>
+            </div>
+            <div class="btn_wrap">
+                <a href="javascript:;" onClick="history.back(-1)">목록</a>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argRegstSeq" name="argRegstSeq" th:value="${param.regstSeq}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/mypage/status/read.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

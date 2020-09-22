@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='이벤트 등록'">
+<head>
+    <title th:text="${metaTit}">이벤트 등록</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="device_con01" id="eventWrite">
+        <div class="inner">
+            <form name="eventForm" method="post" action="">
+                <div class="table_wrap">
+                    <h4>이벤트 등록 <p>(<span class="red">*</span>필수입력항목)</p></h4>
+                    <table>
+                        <colgroup>
+                            <col style="width:200px;" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th><i>*</i>이벤트 이름</th>
+                                <td><input type="text" name="evntNm" id="evntNm" v-model.trim="evtVo.evntNm" class="w100p" maxlength="50" placeholder="이벤트 이름을 입력해주세요." /></td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>연관 디바이스</th>
+                                <td>
+                                    <select name="devId" id="devId" v-model="evtVo.devId"  class="w100p">
+                                        <option value="">선택</option>
+                                        <option v-for="item in codeVo.devList" v-bind:key="item.devId" v-bind:value="item.devId" v-text="item.devNm"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th id="evntOccrDivLabel"><i>*</i>이벤트 발생 구분</th>
+                                <td>
+                                    <label v-for="item in comCdVo.evtOccrDivList" v-bind:key="item.key" class="radio_custom">
+                                        <input type="radio" name="evntOccrDiv" v-model="evtVo.evntOccrDiv" class="check_tab_btn" v-bind:value="item.key" />
+                                        <i></i><span class="txt" v-text="item.txt"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th id="evntOccrCondLabel"><i>*</i>이벤트 발생 조건</th>
+                                <td>
+                                    <div class="check_tab_box" style="display:none;" v-show="evtVo.evntOccrDiv == 'A'">
+                                        <input type="text" name="evntOccrCondVal" id="evntOccrCondVal" v-model.trim="evtVo.evntOccrCondVal" class="w-smbutton04" maxlength="100" />
+                                        <select name="evntOccrCondDiv" id="evntOccrCondDiv" v-model="evtVo.evntOccrCondDiv">
+                                            <option value="">선택</option>
+                                            <option v-for="item in comCdVo.evtOccrCondDivList" v-bind:key="item.key" v-bind:value="item.key" v-text="item.txt"></option>
+                                        </select>
+                                        <span class="front_text w130">동안 자료 수신 없음</span>
+                                    </div>
+                                    <div class="check_tab_box" style="display:none;" v-show="evtVo.evntOccrDiv == 'B'">
+                                        <div v-for="(obsRow, index) in obsList" v-bind:key="index"  class="select_input_box_list">
+                                            <div class="input_box">
+                                                <select name="obsItemId" v-bind:id="'obsItemId' + index" v-model="obsRow.obsItemId">
+                                                    <option value="">선택</option>
+                                                    <option v-for="cdDevObsRow in codeVo.devObsList" v-bind:key="cdDevObsRow.obsItemId" v-bind:value="cdDevObsRow.obsItemId" v-text="cdDevObsRow.obsItemNm"></option>
+                                                </select>
+                                                <select name="compareCode" v-bind:id="'compareCode' + index" v-model="obsRow.compareCode" class="w160">
+                                                    <option value="">선택</option>
+                                                    <option v-for="cdCmprTpRow in codeVo.cmprTpList" v-bind:key="cdCmprTpRow.key" v-bind:value="cdCmprTpRow.key" v-text="cdCmprTpRow.txt"></option>
+                                                </select>
+                                                <input type="text" name="compareValue" v-bind:id="'compareValue' + index" v-bind:value="obsRow.compareValue" v-on:input="ComUtil.onNumInput(obsRow,'compareValue', $event.target)" style="width:calc(100% - 584px);" maxlength="8" />
+                                                <a href="#add" v-on:click.prevent="onEvtAccCondAddClick">추가하기</a>
+                                                <a href="#del" class="del" v-on:click.prevent="onEvtAccCondDelClick(index)">삭제하기</a>
+                                            </div>
+                                        </div>
+                                        <div class="select_input_box_btn">
+                                            <a href="#and" v-bind:class="{ active: evtVo.andOrCode == 'AND' }" class="and_cd" v-on:click.prevent="onAndOrCondClick('AND')">AND</a>
+                                            <a href="#or" v-bind:class="{ active: evtVo.andOrCode == 'OR' }" class="or_cd" v-on:click.prevent="onAndOrCondClick('OR')">OR</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 2020.09.15 김은영사원 요청 -->
+                <!--<div class="table_wrap mt-40">
+                    <h4>SMS SEND <p>(선택입력)</p></h4>
+                    <table>
+                        <colgroup>
+                            <col width="200px"/>
+                            <col width="*"/>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>수신 번호</th>
+                                <td>
+                                    <input type="text" name="recptnPhonNo" id="recptnPhonNo" v-bind:value="evtVo.recptnPhonNo" v-on:input="ComUtil.onNumInput(evtVo, 'recptnPhonNo', $event.target)" class="w100p" maxlength="12" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    SMS 메시지<br/>
+                                    <span>(90bytes 제한)<br/>(한글30자, 영문 90자)</span>
+                                    <div>Bytes : {{evtVo.smsByte}}</div>
+                                </th>
+                                <td>
+                                    <textarea name="smsMsg" id="smsMsg" v-model.trim="evtVo.smsMsg" cols="30" rows="10" placeholder="내용을 입력하세요." class="h140" maxlength="90"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>-->
+                <div class="btn_wrap sm">
+                    <a href="#write" class="blue" v-on:click.prevent="saveEvt">등록</a>
+                    <a href="#cancel" v-on:click.prevent="cnclEvt">취소</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argEvntId"  name="argEvntId"  th:value="${param.evntId}" />
+        <input type="hidden" id="argCurPage" name="argCurPage" th:value="${param.curPage}" />
+    </form>
+
+    <!-- 회원정보 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <form id="memberForm" name="memberForm" method="get">
+            <input type="hidden" id="authMbrSeq" name="authMbrSeq" th:value="${#authentication.principal.account.mbrSeq}" />
+        </form>
+    </th:block>
+    <!-- 회원정보 -->
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/management/event/eventCodeMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/management/event/eventDetailMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/management/event/eventWrite.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

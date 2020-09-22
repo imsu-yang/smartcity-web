@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='공지사항'">
+<head>
+    <title th:text="${metaTit}">공지사항</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="forum_index_con02" id="noticeRead">
+        <div class="inner">
+            <div class="table_wrap edit">
+                <table>
+                    <colgroup>
+                        <col width="100%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th v-text="notiVo.noticeTitle"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="after">
+                                    <div class="left">
+                                        <ul>
+                                            <li v-text="notiVo.cretrNm"></li>
+                                            <li v-text="notiVo.cretDt"></li>
+                                            <li v-text="notiVo.cretTm"></li>
+                                        </ul>
+                                    </div>
+                                    <div class="right">
+                                        <ul>
+                                            <li><img src="/img/read_view_icon.png" alt=""><var v-text="notiVo.hitCnt"></var></li>
+                                            <li><img src="/img/read_like_icon.png" alt=""><var v-text="notiVo.recmdCnt"></var></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="edit_box">
+                                <a href="javascript:;" class="down ml-0"><img src="/img/catalog_icon.png" alt="">첨부파일</a>
+                                <div v-if="ComUtil.isNotNull(notiVo.attachedFilePath)">
+                                    <img v-bind:src="notiVo.attachedFilePath" alt="" onerror="this.src='/img/read_test_img02.jpg';" /><br /><br />
+                                </div>
+                                <div v-bind:inner-html.prop="notiVo.noticeContents | enterToBr"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="prev_next_pager">
+                <dl>
+                    <dt><img src="/img/prev_pager_arrow.png" alt="">이전글</dt>
+                    <dd>
+                        <a href="#prev" v-on:click.prevent="onNotiPrevMove">
+                            <var v-if="notiVo.prevSeq" v-text="notiVo.prevTit"></var>
+                            <var v-else>이전글이 없습니다.</var>
+                        </a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><img src="/img/next_pager_arrow.png" alt="">다음글</dt>
+                    <dd>
+                        <a href="#next" v-on:click.prevent="onNotiNextMove">
+                            <var v-if="notiVo.nextSeq" v-text="notiVo.nextTit"></var>
+                            <var v-else>다음글이 없습니다.</var>
+                        </a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="btn_wrap_type02 noborder-top mt-0">
+                <div class="right">
+                    <a href="#list" v-on:click.prevent="onNotiListMove">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argNoticeSeq" name="argNoticeSeq" th:value="${param.noticeSeq}" />
+        <input type="hidden" id="argCurPage"   name="argCurPage"   th:value="${param.curPage}" />
+        <input type="hidden" id="argSchTpCd"   name="argSchTpCd"   th:value="${param.schTpCd}" />
+        <input type="hidden" id="argSchKwd"    name="argSchKwd"    th:value="${param.schKwd}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/notice/noticeRead.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

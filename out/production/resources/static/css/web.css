@@ -1,0 +1,94 @@
+@charset "utf-8";
+
+/**
+ * File Name   : web.css
+ * Description : 웹 스타일 시트
+ * Author      : atom
+ * Date        : 2020.07.15
+ */
+
+/* 슬라이드 */
+.silde_toggle {
+    overflow: hidden;
+    -webkit-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+/* ETC */
+var {
+    font-style: inherit !important;
+    font-weight: inherit !important;
+}
+
+/* 로딩바 */
+#loadingBar {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    background-image: url(../img/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 64px 64px;
+}
+
+/* 정렬 */
+.text_left { text-align: left !important; }
+
+/* 커서 */
+.cursor_pointer { cursor: pointer; }
+
+/* float */
+.float_left { float: left; }
+.float_right { float: right; }
+
+/* and or 코드 */
+.select_input_box_btn a.and_cd {
+    background: #fff !important;
+    border-color: #0073e9 !important;
+    color: #0073e9 !Important;
+    border-radius: 5px;
+}
+.select_input_box_btn a.and_cd.active {
+    background: #0073e9 !important;
+    border-color: #0073e9 !important;
+    color: #fff !Important;
+    border-radius: 5px;
+}
+.select_input_box_btn a.or_cd {
+    background: #fff !important;
+    border-color: #cc0000 !important;
+    color: #cc0000 !Important;
+    border-radius: 5px;
+}
+.select_input_box_btn a.or_cd.active {
+    background: #cc0000 !important;
+    border-color: #cc0000 !important;
+    color: #fff !Important;
+    border-radius: 5px;
+}
+
+/* display */
+.disp_in_block { display: inline-block; }
+
+/* margin */
+.mg_left_10 { margin-left: 10px; }
+
+/* 버튼 */
+a.btn_basic {
+    padding: 3px 5px;
+    border: 1px solid #c1c1c1;
+    border-radius: 5px;
+    margin-left: 0;
+    margin-right: 5px;
+    background: #fff;
+    color: #666;
+}
+a:hover.btn_basic {
+    border-color: #c9d0d9;
+    background: #e6e9ed;
+}

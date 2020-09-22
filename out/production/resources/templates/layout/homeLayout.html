@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="ko">
+<head>
+    <th:block th:replace="~{fragment/commonHead :: commonHead}"></th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fullpage.css}" />
+    <th:block th:replace="~{fragment/commonScript :: commonScript}"></th:block>
+    <script type="text/javascript" th:src="@{/js/plugin/jquery/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/home/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/home/wow.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/home/fullpage.js}"></script>
+</head>
+<body>
+<div class="wrap main" id="fullpage">
+    <!-- header -->
+    <div id="header">
+        <a th:href="@{/}" class="logo"><img src="/img/logo.png" alt="logo"></a>
+        <div class="gnb">
+            <ul>
+                <li>
+                    <a href="javascript:;">테스트 베드</a>
+                    <ul class="depth02">
+                        <li><a th:href="@{/testbed/intro}">테스트 베드 소개</a></li>
+                        <li><a th:href="@{/testbed/process}">신청 프로세스</a></li>
+                        <li><a th:href="@{/testbed/write}">신청하기</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">디바이스 관리</a>
+                    <ul class="depth02">
+                        <li><a th:href="@{/management/device/list}">디바이스 목록</a></li>
+                        <li><a th:href="@{/management/device/write}">디바이스 등록</a></li>
+                        <!--<li><a th:href="@{/management/device/connect}">디바이스 연결 상태</a></li>-->
+                        <li><a th:href="@{/management/event/list}">이벤트 조회</a></li>
+                        <li><a th:href="@{/management/event/write}">이벤트 등록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">미세먼지 모니터링</a>
+                    <ul class="depth02">
+                        <li><a th:href="@{/finedust/monitoring}">실시간 모니터링</a></li>
+                        <li><a th:href="@{/finedust/statistics}">측정값 통계</a></li>
+                        <li><a th:href="@{/finedust/state}">디바이스 상태</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">커뮤니티</a>
+                    <ul class="depth02">
+                        <li><a th:href="@{/community/product/list}">제품소개</a></li>
+                        <li><a th:href="@{/community/forum/intro}">포럼</a></li>
+                        <li><a th:href="@{/community/notice/list}">공지사항</a></li>
+                        <li><a th:href="@{/community/upload/list}">자료실</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="right_btn">
+            <th:block sec:authorize="!isAuthenticated()">
+                <ul>
+                    <li><a th:href="@{/member/login}">LOGIN</a></li>
+                    <li><a th:href="@{/member/join}">JOIN</a></li>
+                </ul>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <ul>
+                    <li><span id="auth_user" style="margin: 0 10px; font-size: 12pt;"></span></li>
+                    <li><a th:href="@{/mypage/edit}">My Page</a></li>
+                    <li><a th:href="@{/logout}">LOGOUT</a></li>
+                </ul>
+            </th:block>
+            <select name="langCd" id="langCd">
+                <option value="KOR">KOREAN</option>
+            </select>
+            <div class="m_menu_btn"><img src="/img/m_menu_btn.png" alt="모바일메뉴 열기버튼"></div>
+        </div>
+    </div>
+    <div id="m_menu_bg"></div>
+    <div id="m_menu" class="off">
+        <div class="top">
+            <ul>
+                <li class="on"><a href="javascript:;">KOR</a></li>
+                <li><a href="javascript:;">ENG</a></li>
+            </ul>
+            <a href="javascript:;" class="x_btn"><img src="/img/x_btn.png" alt="모바일메뉴 닫기버튼"></a>
+        </div>
+        <div class="gnb"></div>
+        <div class="bot_btn">
+            <ul>
+                <li><a th:href="@{/member/login}">LOGIN</a></li>
+                <li><a th:href="@{/member/join}">JOIN</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- header //-->
+
+    <!-- main_visual -->
+    <div class="section main_visual" id="section01">
+        <h3 class="animate__animated animate__fadeInDown">스마트시티 <b class="roboto">TEST BED</b></h3>
+        <p class="animate__animated animate__fadeInDown ">미세먼지 관련 산업에 종사하는 국·내외 기업들에게 신제품/시제품의 기능과 성능을 실증할 수 있는 온·오프라인 공간을 제공합니다.<br/>
+            스마트시티 테스트베드를 신청하여 다양한 서비스를 이용해보세요.</p>
+        <img src="/img/main_visual_img.png" alt="태블릿 아이콘 이미지">
+        <a href="testbed/write" class="animate__animated animate__rotateIn animate__delay-1s">테스트 베드 신청하기 <img src="/img/main_visual_arrow_btn.png" alt="화살표"></a>
+        <span class="animate__animated animate__fadeInUp animate__delay-2s">‘테스트베드 신청하기' 버튼을 누르면 신청 화면으로 이동됩니다.</span>
+    </div>
+    <!-- main_visual //-->
+
+    <!-- content -->
+    <th:block layout:fragment="content"></th:block>
+    <!-- //content -->
+
+    <!-- footer -->
+    <div class="section fp-auto-height" id="section04">
+        <div id="footer">
+            <div class="inner">
+                <a href="javascript:;" class="top_btn roboto"><img src="/img/top_btn_arrow.png" alt="맨위로">TOP</a>
+                <a th:href="@{/}" class="logo"><img src="/img/ft_logo.png" alt="logo"></a>
+                <ul>
+                    <li>주소 : (우)08510 서울특별시 금천구 벚꽃로 298, 대륭포스트타워 6차 1307호</li>
+                    <li>Tel. 02 -338 -4610</li>
+                    <li>Fax. 02-338- 4609</li>
+                    <li>사업자등록번호 : 108 -81 -65306</li>
+                </ul>
+                <p>COPYRIGHT 2004-2020 VIZENSOFT ALL RIGHTS</p>
+            </div>
+        </div>
+    </div>
+    <!-- //footer -->
+</div>
+
+<div class="quick_wrap">
+    <ul>
+        <li><a th:href="@{/testbed/write}">테스트베드 신청<i></i></a></li>
+        <li><a th:href="@{/management/device/write}">디바이스 등록<i></i></a></li>
+        <li><a th:href="@{/finedust/monitoring}">실시간 모니터링<i></i></a></li>
+    </ul>
+    <a href="javascript:;" class="quick_btn roboto"><img src="/img/quick_btn.png" alt="QUICK">QUICK</a>
+</div>
+
+<th:block th:replace="~{fragment/layer :: body}"></th:block>
+<th:block th:replace="~{fragment/session :: body}"></th:block>
+<th:block layout:fragment="user_script"></th:block>
+
+<script type="text/javascript">
+    // wow.js
+    new WOW().init();
+    var myFullpage = new fullpage('#fullpage', {
+        licenseKey: '4C7D2BAB-E3B14B40-9495FB30-C2352C07',
+        anchors:['01', '02', '03','04'],
+        responsiveWidth:1000,
+        //scrollOverflow: true
+    });
+    const mbrId = SessionUtil.getMbrId();
+    if (mbrId !== "")
+        $("#auth_user").text(mbrId.substring(0, mbrId.length - 3) + "***님");
+</script>
+</body>
+</html>

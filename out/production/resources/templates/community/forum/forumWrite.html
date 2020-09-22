@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='포럼'">
+<head>
+    <title th:text="${metaTit}">포럼</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="device_con01" id="forumWrite">
+        <div class="inner">
+            <form name="join" method="post" action="" enctype="text/plain">
+            <div class="table_wrap">
+                <h4>게시물 등록/수정 <p>(<span class="red">*</span>필수입력항목)</p></h4>
+                <table>
+                    <colgroup>
+                        <col width="180px" />
+                        <col width="" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th><i>*</i>제목</th>
+                            <td>
+                                <input type="text" name="forumTitle" id="forumTitle" v-model.trim="frumVo.forumTitle" maxlength="200" placeholder="제목을 입력해주세요." />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i>*</i>작성자</th>
+                            <td v-text="mbrNm"></td>
+                        </tr>
+                        <tr>
+                            <th><i>*</i>내용</th>
+                            <td>
+                                <textarea cols="30" rows="10" name="forumContents" id="forumContents" v-model.trim="frumVo.forumContents" maxlength="4000" placeholder="내용을 입력해주세요."></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>첨부 파일</th>
+                            <td>
+                                <input type="file" name="frumAtchFile" id="frumAtchFile" accept=".jpg,.png" v-on:change="onAtchFileChange($event.target.files)" />
+                                <span>첨부파일은 50MB까지 가능합니다.</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn_wrap sm">
+                <a href="#write" class="blue" v-on:click.prevent="saveFrum">등록</a>
+                <a href="#cancel" v-on:click.prevent="cnclFrum">취소</a>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argForumGroupSeq" name="argForumGroupSeq" th:value="${param.forumGroupSeq}" />
+        <input type="hidden" id="argForumSeq"      name="argForumSeq"      th:value="${param.forumSeq}" />
+        <input type="hidden" id="argCurPage"       name="argCurPage"       th:value="${param.curPage}" />
+        <input type="hidden" id="argSchTpCd"       name="argSchTpCd"       th:value="${param.schTpCd}" />
+        <input type="hidden" id="argSchKwd"        name="argSchKwd"        th:value="${param.schKwd}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/forum/forumMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/community/forum/forumWrite.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

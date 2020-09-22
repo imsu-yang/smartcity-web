@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}"
+      th:with="metaTit='회원정보'">
+<head>
+    <title th:text="${metaTit}">회원정보</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="join_write_con02" id="mypageEdit">
+        <div class="inner">
+            <div class="table_wrap">
+                <table>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>아이디</th>
+                            <td v-text="mbrVo.mbrId"></td>
+                        </tr>
+                        <tr>
+                            <th>이름</th>
+                            <td><input type="text" name="userNm" id="userNm" class="w200" v-bind:placeholder="mbrVo.userNm" disabled /></td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호</th>
+                            <td>
+                                <input type="password" name="mbrPwd" id="mbrPwd" v-model="mbrVo.mbrPwd" class="w280" />
+                                <span>※영문, 숫자 및 특수문자 조합 8~18자</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호 확인</th>
+                            <td>
+                                <input type="password" name="mbrPwdChk" id="mbrPwdChk" v-model="mbrVo.mbrPwdChk" class="w280" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일 주소</th>
+                            <td>
+                                <input type="text" name="email" id="email" class="email" v-bind:placeholder="mbrVo.email" disabled />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>휴대전화</th>
+                            <td>
+                                <input type="text" name="mphonNo" id="mphonNo" class="email" v-bind:placeholder="mbrVo.mphonNo" disabled />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일 / SMS 수신허용</th>
+                            <td>
+                                <label class="checkbox_custom">
+                                    <input type="checkbox" name="emailRecptnYn" id="emailRecptnYn" v-model="mbrVo.emailRecptnYn" true-value="Y" false-value="N">
+                                    <i></i>
+                                    <span class="txt">이메일 수신 허용</span>
+                                </label>
+                                <label class="checkbox_custom">
+                                    <input type="checkbox" name="smsRecptnYn" id="smsRecptnYn" v-model="mbrVo.smsRecptnYn" true-value="Y" false-value="N">
+                                    <i></i>
+                                    <span class="txt">SMS 수신 허용</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn_wrap">
+                <a href="#update" class="blue" v-on:click.prevent="procEdit">회원정보 수정</a>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/mypage/edit.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

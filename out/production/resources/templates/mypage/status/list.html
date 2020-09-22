@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}"
+      th:with="metaTit='신청 현황'">
+<head>
+    <title th:text="${metaTit}">신청 현황</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="statusList" class="mypage_status_con01">
+        <div class="inner">
+            <div class="table_wrap list">
+                <table>
+                    <colgroup>
+                        <col width='25%'/>
+                        <col width='25%'/>
+                        <col width='25%'/>
+                        <col width='25%'/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>이용자</th>
+                        <th>신청 날짜</th>
+                        <th>상태</th>
+                        <th>담당자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="content in pagination.contents" v-on:click="toRead(content.regstSeq);">
+                        <td v-text="content.userNm"></td>
+                        <td v-text="content.formattedRegstDt"></td>
+                        <td>상태 컬럼 정의 필요</td>
+                        <td>담당자 컬럼 정의 필요</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="javascript:;" v-on:click="goPage(pagination.previousPage)"><img src="../../img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="page in pagination.pages" v-bind:class="{'on': page == (pagination.page) }">
+                        <a href="javascript:;" v-on:click="goPage(page)" v-text="page"></a>
+                    </li>
+                    <li class="next"><a href="javascript:;" v-on:click="goPage(pagination.nextPage)"><img src="../../img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/mypage/status/list.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="commonHead">
+    <meta charset="utf-8" />
+    <meta name="title" th:content="${metaTit}" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:site_name" content="" />
+    <meta name="twitter:card" content="" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-compatible" content="IE=edge,chrome=1" />
+
+    <!--<link rel="shortcut icon" href="" />-->
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/basic.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notosanskr.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/content.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/web.css}" />
+</th:block>
+</body>
+</html>

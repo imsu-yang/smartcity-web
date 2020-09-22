@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:remove="tag">
+<!-- alert -->
+<div class="popup_bg" id="alertLayerWrap" style="display:none;">
+    <div class="popup_box" style="display:block;">
+        <div class="top">
+            <p>알림</p>
+            <!--
+            <a href="#close" class="popup_x_btn" id="alertLayerBtnClose"><img src="/img/popup_x_btn.png" alt=""></a>
+            -->
+        </div>
+        <div class="text">
+            <p id="alertLayerMsg"></p>
+            <div class="btn_wrap">
+                <a href="#ok" class="blue" id="alertLayerBtnOk">확인</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //alert -->
+
+<!-- confirm -->
+<div class="popup_bg" id="confirmLayerWrap" style="display:none;">
+    <div class="popup_box" style="display:block;">
+        <div class="top">
+            <p>알림</p>
+            <!--
+            <a href="#close" class="popup_x_btn" id="confirmLayerBtnClose"><img src="/img/popup_x_btn.png" alt=""></a>
+            -->
+        </div>
+        <div class="text">
+            <p id="confirmLayerMsg"></p>
+            <div class="btn_wrap">
+                <a href="#ok" class="blue" id="confirmLayerBtnOk">확인</a>
+                <a href="#cancel" id="confirmLayerBtnCncl">취소</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //confirm -->
+
+<!-- 로딩바 -->
+<div id="loadingBar" style="display:none;"></div>
+<!-- //로딩바 -->
+
+<script type="text/javascript">
+    // 메뉴 토글 설정
+    var menuMstWrapElmt = DocUtil.getElId("menuMstWrap");
+    var menuDtlWrapElmt = DocUtil.getElId("menuDtlWrap");
+
+    if (menuMstWrapElmt != null && menuDtlWrapElmt != null) {
+        var menuMstListElmt = DocUtil.getElId("menuMstList");
+        var menuDtlListElmt = DocUtil.getElId("menuDtlList");
+
+        menuMstWrapElmt.addEventListener("click", function() {
+            DocUtil.slideUp(menuDtlListElmt);
+
+            if (!DocUtil.hasClass(menuMstListElmt, "active")) {
+                DocUtil.slideDown(menuMstListElmt);
+            } else {
+                DocUtil.slideUp(menuMstListElmt);
+            }
+        }, false);
+
+        menuDtlWrapElmt.addEventListener("click", function() {
+            DocUtil.slideUp(menuMstListElmt);
+
+            if (!DocUtil.hasClass(menuDtlListElmt, "active")) {
+                DocUtil.slideDown(menuDtlListElmt);
+            } else {
+                DocUtil.slideUp(menuDtlListElmt);
+            }
+        }, false);
+    }
+</script>
+</body>
+</html>

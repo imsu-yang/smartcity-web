@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='포럼'">
+<head>
+    <title th:text="${metaTit}">포럼</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="forum_index_con02" id="forumRead">
+        <div class="inner">
+            <div class="table_wrap edit">
+                <h4>게시글</h4>
+                <table>
+                    <colgroup>
+                        <col width="100%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th v-text="frumVo.forumTitle"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="after">
+                                    <div class="left">
+                                        <ul>
+                                            <li v-text="frumVo.cretrMaskId"></li>
+                                            <li v-text="frumVo.cretDt"></li>
+                                            <li v-text="frumVo.cretTm"></li>
+                                        </ul>
+                                    </div>
+                                    <div class="right">
+                                        <ul>
+                                            <li><img src="/img/read_view_icon.png" alt=""><var v-bind:text-content.prop="frumVo.hitCnt | formatNumberComa"></var></li>
+                                            <li><img src="/img/read_like_icon.png" alt=""><var v-bind:text-content.prop="frumVo.recmdCnt | formatNumberComa"></var></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="edit_box">
+                                <a href="javascript:;" class="down ml-0"><img src="/img/catalog_icon.png" alt="">카탈로그</a>
+                                <div v-if="ComUtil.isNotNull(frumVo.attachedFilePath)">
+                                    <img v-bind:src="frumVo.attachedFilePath" alt="" onerror="this.src='/img/read_test_img.jpg';" /><br /><br />
+                                </div>
+                                <div v-bind:inner-html.prop="frumVo.forumContents | enterToBr"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="comment_list" v-if="frumCmtList.length > 0">
+                <dl v-for="(item, index) in frumCmtList" v-bind:key="item.forumCommentSeq">
+                    <dd style="width:100%;">
+                        <div class="top">
+                            <p v-text="item.cretrId"></p>
+                            <span v-text="item.cretDt"></span>
+                            <div class="disp_in_block mg_left_10" v-if="item.selfYn || AuthUtil.getAdminYn()">
+                                <a href="#update" class="btn_basic" v-on:click.prevent="onFrumCmtUptClick(index)">수정</a>
+                                <a href="#delete" class="btn_basic" v-on:click.prevent="onFrumCmtDelClick(index)">삭제</a>
+                                <a href="#cancel" class="btn_basic" v-on:click.prevent="onFrumCmtCnclClick(index)" v-bind:id="'frumCmtBtnCncl' + index" style="display:none;">취소</a>
+                            </div>
+                        </div>
+                        <div class="text">
+                            <div class="comment_input" v-bind:id="'frumCmtUptWrap' + index" style="display:none; margin:0;">
+                                <textarea name="frumCmtUptCont" v-bind:id="'frumCmtUptCont' + index" cols="30" rows="10" placeholder="댓글을 입력해주세요."></textarea>
+                                <a href="#comment" v-on:click.prevent="updateFrumCmt(index)">댓글 수정</a>
+                            </div>
+                            <p v-bind:id="'frumCmtTxtWrap' + index" v-bind:inner-html.prop="item.forumCommentContent | enterToBr"></p>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <div class="comment_input">
+                <textarea name="frumCmtCont" id="frumCmtCont" v-model.trim="frumCmtCont" cols="30" rows="10" placeholder="댓글은 로그인한 후에 쓸 수 있습니다."></textarea>
+                <a href="#comment" v-on:click.prevent="insertFrumCmt">댓글 쓰기</a>
+            </div>
+            <div class="btn_wrap_type02">
+                <div class="left">
+                    <a href="#update" class="border" v-on:click.prevent="onFrumUptMove" v-if="frumVo.selfYn || AuthUtil.getAdminYn()">수정</a>
+                    <a href="#delete" class="gray" v-on:click.prevent="deleteFrum" v-if="frumVo.selfYn || AuthUtil.getAdminYn()">삭제</a>
+                    <a href="#list" v-on:click.prevent="onFrumListMove">목록</a>
+                    <a href="#recommend" class="blue border" v-on:click.prevent="procFrumRcmd">추천</a>
+                </div>
+                <div class="right">
+                    <a href="#write" class="blue border" v-on:click.prevent="onFrumWritMove"><img src="/img/btns_blue_write_btn.png" alt="">글쓰기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argForumGroupSeq" name="argForumGroupSeq" th:value="${param.forumGroupSeq}" />
+        <input type="hidden" id="argForumSeq"      name="argForumSeq"      th:value="${param.forumSeq}" />
+        <input type="hidden" id="argCurPage"       name="argCurPage"       th:value="${param.curPage}" />
+        <input type="hidden" id="argSchTpCd"       name="argSchTpCd"       th:value="${param.schTpCd}" />
+        <input type="hidden" id="argSchKwd"        name="argSchKwd"        th:value="${param.schKwd}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/forum/forumMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/community/forum/forumRead.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

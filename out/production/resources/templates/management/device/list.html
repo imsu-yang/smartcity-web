@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='디바이스 목록'">
+<head>
+    <title th:text="${metaTit}">디바이스 목록</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="deviceList" class="device_con01">
+        <div class="inner">
+            <div class="table_wrap list">
+                <div class="top_btn">
+                    <div class="right">
+                        <a href="#write" class="blue" v-on:click.prevent="toWrite"><img src="../../img/table_wrap_plus_btn_white.png" alt="">디바이스 등록</a>
+                    </div>
+                </div>
+                <table>
+                    <colgroup>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>디바이스 ID</th>
+                        <th>디바이스 이름</th>
+                        <th>위치정보</th>
+                        <th>상세정보</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="device in pagination.contents">
+                        <td v-text="device.devId"></td>
+                        <td v-text="device.devName"></td>
+                        <td>
+                            <p>위도: <span v-text="device.latitVal"></span></p>
+                            <p>경도: <span v-text="device.lngitVal"></span></p>
+                        </td>
+                        <td>
+                            <a href="#read" v-on:click.prevent="toRead(device.devId);" >상세정보 조회 <img src="../../img/table_wrap_btn_arrow.png" alt=""></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="javascript:;" v-on:click="goPage(pagination.previousPage)"><img src="../../img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="page in pagination.pages" v-bind:class="{'on': page == (pagination.page) }">
+                        <a href="javascript:;" v-on:click="goPage(page)" v-text="page"></a>
+                    </li>
+                    <li class="next"><a href="javascript:;" v-on:click="goPage(pagination.nextPage)"><img src="../../img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/management/device/list.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

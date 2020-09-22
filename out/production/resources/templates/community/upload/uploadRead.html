@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='자료실'">
+<head>
+    <title th:text="${metaTit}">자료실</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="forum_index_con02" id="uploadRead">
+        <div class="inner">
+            <div class="table_wrap edit">
+                <table>
+                    <colgroup>
+                        <col width="100%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th v-text="upldVo.uploadTitle"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="after">
+                                    <div class="left">
+                                        <ul>
+                                            <li v-text="upldVo.cretrNm"></li>
+                                            <li v-text="upldVo.cretDt"></li>
+                                            <li v-text="upldVo.cretTm"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="edit_box">
+                                <a href="javascript:;" class="down ml-0"><img src="/img/catalog_icon.png" alt="">첨부파일</a>
+                                <div v-bind:inner-html.prop="upldVo.uploadContents | enterToBr"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="prev_next_pager">
+                <dl>
+                    <dt><img src="/img/prev_pager_arrow.png" alt="">이전글</dt>
+                    <dd>
+                        <a href="#prev" v-on:click.prevent="onUpldPrevMove">
+                            <var v-if="upldVo.prevSeq" v-text="upldVo.prevTit"></var>
+                            <var v-else>이전글이 없습니다.</var>
+                        </a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><img src="/img/next_pager_arrow.png" alt="">다음글</dt>
+                    <dd>
+                        <a href="#next" v-on:click.prevent="onUpldNextMove">
+                            <var v-if="upldVo.nextSeq" v-text="upldVo.nextTit"></var>
+                            <var v-else>다음글이 없습니다.</var>
+                        </a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="btn_wrap_type02 noborder-top mt-0">
+                <div class="right">
+                    <a href="#list" v-on:click.prevent="onUpldListMove">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argUploadSeq" name="argUploadSeq" th:value="${param.uploadSeq}" />
+        <input type="hidden" id="argCurPage"   name="argCurPage"   th:value="${param.curPage}" />
+        <input type="hidden" id="argSchTpCd"   name="argSchTpCd"   th:value="${param.schTpCd}" />
+        <input type="hidden" id="argSchKwd"    name="argSchKwd"    th:value="${param.schKwd}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/upload/uploadRead.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

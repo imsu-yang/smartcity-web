@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/monitoringLayout}"
+      th:with="metaTit='디바이스 상태'">
+<head>
+    <title th:text="${metaTit}">디바이스 상태</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugin/date-picker/date-picker.css}" />
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="fineDustState">
+        <div class="state_con01">
+            <div class="inner">
+                <div class="table_wrap">
+                    <table>
+                        <colgroup>
+                            <col style="width:180px;" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>디바이스(테스트)</th>
+                                <td>
+                                    <div class="check_a_btn radio">
+                                        <a href="#device" v-for="(item, index) in codeVo.devList" v-bind:key="item.devId"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onDevClick(index)" v-text="item.devNm"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기간</th>
+                                <td>
+                                    <div class="after">
+                                        <div class="left">
+                                            <div class="cal_box start w140">
+                                                <date-picker ref="strDt" v-model="paramVo.strDt" type="date" format="YYYY-MM-DD" value-type="format" v-bind:editable="false" style="width:140px;"></date-picker>
+                                            </div>
+                                            <span class="or_text">-</span>
+                                            <div class="cal_box end w140">
+                                                <date-picker ref="endDt" v-model="paramVo.endDt" type="date" format="YYYY-MM-DD" value-type="format" v-bind:editable="false" style="width:140px;"></date-picker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="height:35px; margin:20px 0 25px 0;">
+                        <div class="top_btn float_right">
+                            <a href="#search" class="blue" v-on:click.prevent="onSearch"><img src="/img/table_search_btn02.png" alt="" />검색</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="graph_wrap">
+                    <div class="box type01">
+                        <h3>수집 데이터 : <span v-bind:text-content.prop="totVo.totCnt | formatNumberComa"></span>건</h3>
+                        <ul>
+                            <li>
+                                <span>성공</span>
+                                <p><b class="roboto" v-bind:text-content.prop="totVo.succCnt | formatNumberComa"></b> 건</p>
+                            </li>
+                            <li>
+                                <span>실패</span>
+                                <p><b class="roboto" v-bind:text-content.prop="totVo.failCnt | formatNumberComa"></b> 건</p>
+                            </li>
+                            <li>
+                                <span>가동시간</span>
+                                <p><b class="roboto" v-bind:text-content.prop="totVo.oprtHour | formatNumberComa"></b> 시간</p>
+                            </li>
+                            <li>
+                                <span>이벤트 발생건수</span>
+                                <p><b class="roboto" v-bind:text-content.prop="evtVo.totCnt | formatNumberComa"></b> 건</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box type02">
+                        <div class="text">
+                            <h3>총 수집 데이터</h3>
+                            <p><b v-bind:text-content.prop="totVo.totCnt | formatNumberComa"></b>건</p>
+                        </div>
+                        <div class="graph" id="graph_totalData"></div>
+                    </div>
+                    <div class="box type02">
+                        <div class="text">
+                            <h3>총 가동시간</h3>
+                            <p><b v-bind:text-content.prop="totVo.oprtHour | formatNumberComa"></b>시간</p>
+                        </div>
+                        <div class="graph" id="graph_upTime"></div>
+                    </div>
+                    <div class="box type02">
+                        <div class="text">
+                            <h3>이벤트</h3>
+                            <p><b v-bind:text-content.prop="evtVo.totCnt | formatNumberComa"></b>건</p>
+                        </div>
+                        <div class="graph" id="graph_Event"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="state_con02">
+            <div class="inner">
+                <div class="table_wrap mt-40">
+                    <div class="top_btn">
+                        <h4 class="left">이벤트 발생 현황</h4>
+                        <div class="right">
+                            <!--
+                            <select name="" id="">
+                                <option value="">전체</option>
+                                <option value="">전체</option>
+                            </select>
+                            <select name="" id="">
+                                <option value="">전체</option>
+                                <option value="">전체</option>
+                            </select>
+                            <a href="javascript:;" class="down_btn"><img src="/img/download_icon02.jpg" alt=""></a>
+                            -->
+                        </div>
+                    </div>
+                    <div class="graph mt-20" id="graph_evenToccurrence"></div>
+                </div>
+                <div class="table_wrap mt-40">
+                    <div class="top_btn">
+                        <h4 class="left">이벤트 발생 이력</h4>
+                        <div class="right">
+                            <!--
+                            <select name="" id="">
+                                <option value="">전체</option>
+                                <option value="">전체</option>
+                            </select>
+                            <select name="" id="">
+                                <option value="">전체</option>
+                                <option value="">전체</option>
+                            </select>
+                            -->
+                            <a href="#download" class="down_btn" v-on:click.prevent="onEvtLogExclDwldClick"><img src="/img/download_icon02.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <table>
+                        <colgroup>
+                            <col style="width:20%;" />
+                            <col style="width:20%;" />
+                            <col />
+                            <col style="width:15%;" />
+                            <col style="width:15%;" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>시간</th>
+                                <th>이벤트명</th>
+                                <th>이벤트 내용</th>
+                                <th>측정항목</th>
+                                <th>측정값</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in evtLogList" v-bind:key="item.seq">
+                                <td v-text="item.logDt"></td>
+                                <td v-text="item.evntNm"></td>
+                                <td v-text="item.mngContent"></td>
+                                <td v-text="item.evtObsNm"></td>
+                                <td v-text="item.testVal"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pager_wrap" v-if="evtLogVo.totCnt > 0">
+                    <ul>
+                        <li class="prev"><a href="#prev" v-on:click.prevent="onEvtLogPageMove(evtLogVo.prevPage)"><img src="/img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                        <li v-for="idx in evtLogVo.naviPageList" v-bind:class="{ on: idx == evtLogVo.curPage }">
+                            <a href="#page" v-on:click.prevent="onEvtLogPageMove(idx)" v-text="idx"></a>
+                        </li>
+                        <li class="next"><a href="#next" v-on:click.prevent="onEvtLogPageMove(evtLogVo.nextPage)"><img src="/img/pager_wrap_next.png" alt="다음으로"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원정보 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <form id="memberForm" name="memberForm" method="get">
+            <input type="hidden" id="authMbrSeq" name="authMbrSeq" th:value="${#authentication.principal.account.mbrSeq}" />
+        </form>
+    </th:block>
+    <!-- 회원정보 -->
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/plugin/date-picker/date-picker.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/date-picker/lang-ko.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/finedust/state.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

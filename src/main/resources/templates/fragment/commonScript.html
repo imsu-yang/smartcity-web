@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="commonScript">
+    <!-- 플러그인 -->
+    <script type="text/javascript" th:src="@{/js/plugin/vue/vue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/es6-promise/es6-promise.auto.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/axios/axios.min.js}"></script>
+
+    <!-- 전역변수 -->
+    <script th:inline="javascript" type="text/javascript">
+        var GblVar = {
+            apiUrl: [[${@environment.getProperty('api.url')}]]
+        };
+    </script>
+
+    <!-- 유틸 -->
+    <script type="text/javascript" th:src="@{/js/common/web.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/doc.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/layer.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/ajax.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/code.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/session.util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/vue.com.util.js}"></script>
+</th:block>
+</body>
+</html>

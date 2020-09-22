@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='자료실'">
+<head>
+    <title th:text="${metaTit}">자료실</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="notice_con01" id="uploadList">
+        <div class="inner">
+            <div class="table_wrap list line">
+                <div class="top_btn">
+                    <div class="right w100">
+                        <select name="schTpCd" id="schTpCd" v-model="argVo.schTpCd">
+                            <option value="01">제목</option>
+                            <option value="02">내용</option>
+                            <option value="03">제목+내용</option>
+                        </select>
+                        <input type="text" name="schKwd" id="schKwd" v-model.trim="argVo.schKwd" v-on:keyup.enter="selectUpldList" placeholder="검색어를 입력하세요">
+                        <a href="#search" class="blue" v-on:click.prevent="selectUpldList"><img src="/img/table_search_btn02.png" alt="">검색</a>
+                    </div>
+                </div>
+                <table>
+                    <colgroup>
+                        <col width="12%" />
+                        <col />
+                        <col width="18%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in upldList" v-bind:key="item.uploadSeq">
+                            <td v-text="rowNum - index"></td>
+                            <td class="title" v-on:click="onUpldReadMove(item.uploadSeq)" v-text="item.uploadTitle"></td>
+                            <td v-text="item.cretDt"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="#prev" v-on:click.prevent="onPageMove(prevPage)"><img src="/img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="idx in naviPageList" v-bind:class="{ on: idx == argVo.curPage }">
+                        <a href="#page" v-on:click.prevent="onPageMove(idx)" v-text="idx"></a>
+                    </li>
+                    <li class="next"><a href="#next" v-on:click.prevent="onPageMove(nextPage)"><img src="/img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argCurPage" name="argCurPage" th:value="${param.curPage}" />
+        <input type="hidden" id="argSchTpCd" name="argSchTpCd" th:value="${param.schTpCd}" />
+        <input type="hidden" id="argSchKwd"  name="argSchKwd"  th:value="${param.schKwd}" />
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/community/upload/uploadList.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

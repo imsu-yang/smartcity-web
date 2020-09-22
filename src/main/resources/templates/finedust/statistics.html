@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/monitoringLayout}"
+      th:with="metaTit='측정값 통계'">
+<head>
+    <title th:text="${metaTit}">측정값 통계</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugin/date-picker/date-picker.css}" />
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="fineDustStatistics">
+        <div class="statistics_con01">
+            <div class="inner">
+                <div class="table_wrap">
+                    <table>
+                        <colgroup>
+                            <col style="width:180px;" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>디바이스(테스트)</th>
+                                <td>
+                                    <div class="check_a_btn radio">
+                                        <a href="#device" v-for="(item, index) in codeVo.testDevList" v-bind:key="item.devId"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onTestDevClick(index)" v-text="item.devNm"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>디바이스(비교)</th>
+                                <td>
+                                    <div class="check_a_btn checkbox">
+                                        <a href="#device" v-for="(item, index) in codeVo.cmprDevList" v-bind:key="item.devId"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onCmprDevClick(index)" v-text="item.devNm"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기간</th>
+                                <td>
+                                    <div class="after">
+                                        <div class="left">
+                                            <div class="cal_box start w140">
+                                                <date-picker ref="strDt" v-model="paramVo.strDt" type="date" format="YYYY-MM-DD" value-type="format" v-bind:editable="false" style="width:140px;"></date-picker>
+                                            </div>
+                                            <span class="or_text">-</span>
+                                            <div class="cal_box end w140">
+                                                <date-picker ref="endDt" v-model="paramVo.endDt" type="date" format="YYYY-MM-DD" value-type="format" v-bind:editable="false" style="width:140px;"></date-picker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>측정항목</th>
+                                <td>
+                                    <div class="check_a_btn radio">
+                                        <a href="#item" v-for="(item, index) in codeVo.devObsList" v-bind:key="item.obsItemId"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onDevObsClick(index)" v-text="item.obsItemNm">
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>통계항목</th>
+                                <td>
+                                    <div class="check_a_btn radio">
+                                        <a href="#item" v-for="(item, index) in codeVo.stscItemList" v-bind:key="item.key"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onStscItemClick(index)" v-text="item.txt"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기준</th>
+                                <td>
+                                    <div class="check_a_btn radio">
+                                        <a href="#item" v-for="(item, index) in codeVo.stscDtmList" v-bind:key="item.key"
+                                            v-bind:class="{ active: item.actYn }" v-on:click.prevent="onStscDtmClick(index)" v-text="item.txt"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="top_btn float_right">
+                        <a href="#search" class="blue" v-on:click.prevent="onSearch(true)"><img src="/img/table_search_btn02.png" alt="" />검색</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics_con02">
+            <div class="inner">
+                <div class="tab_btn">
+                    <ul>
+                        <li class="active" id="tabHead1"><a href="#tab1" v-on:click.prevent="onTabClick('chart')"><i class="graph"></i></a></li>
+                        <li id="tabHead2"><a href="#tab2" v-on:click.prevent="onTabClick('table')"><i class="table"></i></a></li>
+                    </ul>
+                    <div class="right_btn" v-if="tabId == 'table'">
+                        <a href="#download" v-on:click.prevent="onExclDwldClick"><img src="/img/download_icon.png" alt="">DOWNLOAD</a>
+                    </div>
+                </div>
+                <div class="tab_con">
+                    <div class="graph" id="tabCont1" style="display:block;">
+                        <div id="statistics_graph"></div>
+                    </div>
+                    <div class="table" id="tabCont2" style="display:none;">
+                        <div class="table_wrap list">
+                            <table class="mt-0 mb-0">
+                                <colgroup>
+                                    <col width="20%" />
+                                    <col width="26%" />
+                                    <col v-for="devRow in comVo.devList" v-bind:key="devRow.devId" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>시간</th>
+                                        <th>측정항목</th>
+                                        <th v-for="devRow in comVo.devList" v-bind:key="devRow.devId" v-text="devRow.devNm"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in obsStscList" v-bind:key="item.obsTime">
+                                        <td v-text="item.obsTime"></td>
+                                        <td v-text="item.obsItemNm"></td>
+                                        <td v-for="devRow in comVo.devList" v-bind:key="devRow.devId">
+                                            <p v-text="item[devRow.devId]"></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--
+                        <div class="pager_wrap">
+                            <ul>
+                                <li class="prev"><a href="javascript:;"><img src="/img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                                <li class="on"><a href="javascript:;">1</a></li>
+                                <li><a href="javascript:;">2</a></li>
+                                <li><a href="javascript:;">3</a></li>
+                                <li><a href="javascript:;">4</a></li>
+                                <li><a href="javascript:;">5</a></li>
+                                <li class="next"><a href="javascript:;"><img src="/img/pager_wrap_next.png" alt="다음으로"></a></li>
+                            </ul>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원정보 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <form id="memberForm" name="memberForm" method="get">
+            <input type="hidden" id="authMbrSeq" name="authMbrSeq" th:value="${#authentication.principal.account.mbrSeq}" />
+        </form>
+    </th:block>
+    <!-- 회원정보 -->
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/plugin/date-picker/date-picker.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/date-picker/lang-ko.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/finedust/statistics.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

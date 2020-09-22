@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:remove="tag">
+<th:block sec:authorize="isAuthenticated()">
+    <!-- 회원정보 -->
+    <form id="sessionForm" name="sessionForm" method="get">
+        <input type="hidden" id="gblMbrYn"   name="gblMbrYn"   value="Y" />
+        <input type="hidden" id="gblMbrId"   name="gblMbrId"   th:value="${#authentication.principal.account.mbrId}" />
+        <input type="hidden" id="gblMbrNm"   name="gblMbrNm"   th:value="${#authentication.principal.account.userNm}" />
+        <input type="hidden" id="gblMbrClas" name="gblMbrClas" th:value="${#authentication.principal.account.mbrClas}" />
+        <input type="hidden" id="gblMbrSeq"  name="gblMbrSeq"  th:value="${#authentication.principal.account.mbrSeq}" />
+    </form>
+    <!-- //회원정보 -->
+</th:block>
+</body>
+</html>

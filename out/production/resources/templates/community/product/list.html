@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='제품소개'">
+<head>
+    <title th:text="${metaTit}">제품 소개</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="productList">
+        <div class="product_con01">
+        <div class="inner">
+            <div class="table_wrap">
+                <div class="top_btn">
+                    <div class="right">
+                        <a href="#write" v-on:click.prevent="toWrite();" class="blue"><img src="../../img/table_wrap_plus_btn_white.png" alt="">제품 등록</a>
+                    </div>
+                </div>
+                <table>
+                    <colgroup>
+                        <col width="130px"/>
+                        <col width="*"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>측정기 종류</th>
+                        <td>
+                            <label class="radio_custom">
+                                <input type="radio" name="instrument" value="all" v-model="options.prdtType">
+                                <i></i>
+                                <span class="txt">전체</span>
+                            </label>
+                            <label class="radio_custom">
+                                <input type="radio" name="instrument" value="OBSTYPE001" v-model="options.prdtType">
+                                <i></i>
+                                <span class="txt">고정형</span>
+                            </label>
+                            <label class="radio_custom">
+                                <input type="radio" name="instrument" value="OBSTYPE002" v-model="options.prdtType">
+                                <i></i>
+                                <span class="txt">이동형</span>
+                            </label>
+                            <label class="radio_custom">
+                                <input type="radio" name="instrument" value="OBSTYPE003" v-model="options.prdtType">
+                                <i></i>
+                                <span class="txt">휴대형</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>측정기명</th>
+                        <td>
+                           <!-- <select name="" id="" class="w166" >
+                                <option value="">디바이스 이름</option>
+                                <option value="">디바이스 이름</option>
+                                <option value="">디바이스 이름</option>
+                            </select> -->
+                            <input type="text" class="w-smbutton04" v-model="options.prdtName">
+                            <a href="javascript:;" class="sm blue" v-on:click="search();"><img src="../../img/table_search_btn02.png" alt="">검색</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="product_con02">
+
+                <div class="inner">
+                    <ul>
+                        <li v-for="product in productList"  v-on:click="toRead(product.prdtSeq)">
+                            <i v-if="product.hasImage"><img :src="product.prdtImgPath" alt=""></i>
+                            <i v-else ><img src="../../img/device_list_icon01.png" alt=""></i>
+                            <span v-text="product.prdtTypeName"></span>
+                            <h4 v-text="product.prdtName"></h4>
+                            <p v-text="product.obsItemName"></p>
+                            <div class="hr"></div>
+                            <a href="javascript:;"><img src="../../img/catalog_icon.png" alt="">카탈로그</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <scroll-loader :loader-method="getProdcutList" :loader-disable="disable">
+                </scroll-loader>
+        </div>
+
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/plugin/scroll-loader/scroll-loader.umd.js}"></script>
+    <script type="text/javascript" th:src="@{/js/community/product/list.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/memberLayout}"
+      th:with="metaTit='회원 가입'">
+<head>
+    <title th:text="${metaTit}">회원 가입</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="join_con01">
+        <div class="inner">
+            <dl>
+                <dt>
+                    <div class="center">
+                        <i><img src="/img/join_con01_icon01.png" alt=""></i>
+                        <p>일반</p>
+                    </div>
+                </dt>
+                <dd>
+                    <div class="center">
+                        <p>일반 회원</p>
+                        <span>스마트시티 테스트베드를 신청하여 제품의<br/>
+                        기능과 성능을 테스트하려는 일반회원 가입<br/>
+                        신청란입니다.</span>
+                        <a href="/member/write">JOIN <img src="/img/join_con01_arrow.png" alt=""></a>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <div class="center">
+                        <i><img src="/img/join_con01_icon02.png" alt=""></i>
+                        <p>시흥시<br/>지방자치단체</p>
+                    </div>
+                </dt>
+                <dd>
+                    <div class="center">
+                        <p>시흥시 지방자치단체 회원</p>
+                        <span>스마트시티 테스트베드를 운영·관리하는<br/>
+                        시흥시 지방자치단체 회원 가입 신청란입니다. </span>
+                        <a href="#blank" onclick="return false;">JOIN <img src="/img/join_con01_arrow.png" alt=""></a>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+</body>
+</html>

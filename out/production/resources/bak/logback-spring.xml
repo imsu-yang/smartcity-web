@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />-->
+
+    <springProperty scope="context" name="logging.appender" source="logging.appender" defaultValue="CONSOLE"/>
+    <springProperty scope="context" name="logging.level.root" source="logging.level.root" defaultValue="INFO"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%class{0}] %M \(%L\):  %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <if condition='"FILE".equals(property("logging.appender"))'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <encoder>
+                    <charset>UTF-8</charset>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%class{0}] %M \(%L\):  %m%n</pattern>
+                </encoder>
+                <file>logs/admin/admin.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <maxHistory>30</maxHistory>
+                    <fileNamePattern>logs/admin/admin.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+                </rollingPolicy>
+            </appender>
+        </then>
+    </if>
+
+    <root level="${logging.level.root}">
+        <appender-ref ref="${logging.appender}"/>
+    </root>
+</configuration>

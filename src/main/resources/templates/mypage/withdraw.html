@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}"
+      th:with="metaTit='탈퇴하기'">
+<head>
+    <title th:text="${metaTit}">탈퇴하기</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="member_con" id="mypageWithDraw">
+        <div class="inner">
+            <p class="title">패스워드를 입력하시면 회원탈퇴가 정상적으로 진행됩니다.
+            <br/>탈퇴한 회원정보는 복구할 수 없으므로, 신중히 선택해주시기 바랍니다.</p>
+            <div class="w590">
+                <div class="box">
+                    <dl>
+                        <dt>아이디</dt>
+                        <dd th:text="${#authentication.principal.account.mbrId}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>비밀번호</dt>
+                        <dd>
+                            <div class="cell">
+                                <input type="password" name="mbrPwd" id="mbrPwd" v-model="mbrPwd" v-on:keyup.enter="procWithDraw" class="w100p" placeholder="비밀번호" />
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="btn_wrap">
+                    <a href="#withdraw" class="blue" v-on:click.prevent="procWithDraw">탈퇴하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/mypage/withdraw.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

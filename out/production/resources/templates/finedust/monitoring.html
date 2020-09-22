@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/monitoringLayout}"
+      th:with="metaTit='미세먼지 모니터링'">
+<head>
+    <title th:text="${metaTit}">미세먼지 모니터링</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fullpage.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/plugin/date-picker/date-picker.css}" />
+    <script th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{http://map.vworld.kr/js/vworldMapInit.js.do(version=2.0, apiKey=${vworldKey})}"></script>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="fine_monitor_con01">
+        <div class="tit_box">
+            <ul>
+                <li>
+                    <div class="center">
+                        <h3>시흥시 미세먼지 농도</h3>
+                    </div>
+                </li>
+                <li class="line02">
+                    <div class="center">
+                        <img src="/img/time_icon.png" alt="시계 아이콘" />
+                        <p>2020년 05월 12일 12:33 <br /><span class="blue">(실시간 평균)</span></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="center">
+                        <p>미세먼지(PM10)</p>
+                        <i class="step01"></i>
+                        <h4 class="roboto">172</h4>
+                    </div>
+                </li>
+                <li>
+                    <div class="center">
+                        <p>초미세먼지(PM20)</p>
+                        <i class="step02"></i>
+                        <h4 class="roboto">100</h4>
+                    </div>
+                </li>
+                <li>
+                    <div class="center">
+                        <img src="/img/thermometer_icon.png" alt="온도계 아이콘" />
+                        <h4 class="roboto">23 <span>°C</span></h4>
+                    </div>
+                </li>
+                <li>
+                    <div class="center">
+                        <img src="/img/water_icon.png" alt="물방울 아이콘" />
+                        <h4 class="roboto">80 <span>%</span></h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="monitoring" class="fine_monitor_con02">
+        <div id="vmap" class="map_box">
+            <a href="javascript:;" class="hide_btn"><img src="/img/hide_arrow.png" alt="화살표 이미지" /></a>
+            <div class="state_label">
+                <ul>
+                    <li><i class="step04"></i>매우나쁨</li>
+                    <li><i class="step03"></i>나쁨</li>
+                    <li><i class="step02"></i>보통</li>
+                    <li><i class="step01"></i>좋음</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text_box">
+            <span>업데이트 시간 : {{device.updateTime}} <a href="javascript:;"><img src="/img/reset_btn.png" alt="새로고침"></a></span>
+            <div class="box">
+                <div class="top">
+                    <h4 v-text="device.devName">테스트 디바이스 1</h4>
+                    <p v-text="device.address">설치 위치 : 시흥시 가로수길 123</p>
+                </div>
+                <ul>
+                    <li  v-bind:class="{ on: selObsItemId == item.obsItemId }" v-for="item in device.obsDataList">
+                        <h6 v-text="item.obsItemName">PM10</h6>
+                        <a href="javascript:;" v-on:click="selectObsItemId(item.obsItemId)" class="roboto">
+                            <b v-text="item.obsValue">29</b>{{item.unitType}}
+                        </a>
+                    </li>
+                </ul>
+                <div class="btns_box">
+                    <a href="javascript:;" v-for="(item, index) in compareDevices" v-on:click="selectCompareDevice(item.devId)" v-text="item.devName"></a>
+                </div>
+                <!--
+                <div class="slide_box">
+                    <div class="graph_slider"></div>
+                </div>
+                -->
+                <div id="graph_box"></div>
+                <div class="bot_btn">
+                    <a th:href="@{/finedust/statistics}">상세보기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/plugin/echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/finedust/monitoringMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/finedust/monitoring.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

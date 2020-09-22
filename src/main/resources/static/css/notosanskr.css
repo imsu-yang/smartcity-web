@@ -1,0 +1,66 @@
+/* Noto Sans KR 폰트 설정 - font-family 사용할 때 사용*/
+@import url("roboto.css");
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url('../fonts/NotoSans-Thin.woff2') format('woff2'),
+       url('../fonts/NotoSans-Thin.woff') format('woff'),
+       url('../fonts/NotoSans-Thin.eot') format('eot'),
+       url('../fonts/NotoSans-Thin.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../fonts/NotoSans-Light.woff2') format('woff2'),
+       url('../fonts/NotoSans-Light.woff') format('woff'),
+       url('../fonts/NotoSans-Light.eot') format('eot'),
+       url('../fonts/NotoSans-Light.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../fonts/NotoSans-DemiLight.woff2') format('woff2'),
+       url('../fonts/NotoSans-DemiLight.woff') format('woff'),
+       url('../fonts/NotoSans-DemiLight.eot') format('eot'),
+       url('../fonts/NotoSans-DemiLight.otf') format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 400;
+   src: url('../fonts/NotoSans-Regular.woff2') format('woff2'),
+        url('../fonts/NotoSans-Regular.woff') format('woff'),
+       	url('../fonts/NotoSans-Regular.eot') format('eot'),
+        url('../fonts/NotoSans-Regular.otf') format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 500;
+   src: url('../fonts/NotoSans-Medium.woff2') format('woff2'),
+        url('../fonts/NotoSans-Medium.woff') format('woff'),
+        url('../fonts/NotoSans-Medium.eot') format('eot'),
+        url('../fonts/NotoSans-Medium.otf') format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 700;
+   src: url('../fonts/NotoSans-Bold.woff2') format('woff2'),
+        url('../fonts/NotoSans-Bold.woff') format('woff'),
+        url('../fonts/NotoSans-Bold.eot') format('eot'),
+        url('../fonts/NotoSans-Bold.otf') format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 900;
+   src: url('../fonts/NotoSans-Black.woff2') format('woff2'),
+        url('../fonts/NotoSans-Black.woff') format('woff'),
+        url('../fonts/NotoSans-Black.eot') format('eot'),
+        url('../fonts/NotoSans-Black.otf') format('opentype');
+ }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='디바이스 연결상태'">
+<head>
+    <title th:text="${metaTit}">디바이스 연결상태</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="deviceConnect" class="device_con01">
+        <div class="inner">
+            <div class="table_wrap list">
+                <table>
+                    <colgroup>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                        <col width="20%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>디바이스 ID</th>
+                        <th>디바이스 이름</th>
+                        <th>상태</th>
+                        <th>프로토콜 유형</th>
+                        <th>활성화 여부</th>
+                    </tr>
+                    </thead>
+                    <tbody>s
+                    <tr v-for="(device, idx) in pagination.contents">
+                        <td v-text="device.devId"></td>
+                        <td v-text="device.devName"></td>
+                        <td v-text="device.connStatus"></td>
+                        <td v-text="device.protocolRuleName"></td>
+                        <td>
+                            <div class="toggleBtn">
+                                <a href="javascript:;" v-on:click="toggleLiveStatus(idx, 'LIVED');" class="on" v-bind:class="{'active': device.liveStatus == 'LIVED' }">ON</a>
+                                <a href="javascript:;" v-on:click="toggleLiveStatus(idx, 'OFF');" class="off" v-bind:class="{'active': device.liveStatus == 'OFF' }">OFF</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="javascript:;" v-on:click="goPage(pagination.previousPage)"><img src="../../img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="page in pagination.pages" v-bind:class="{'on': page == (pagination.page) }">
+                        <a href="javascript:;" v-on:click="goPage(page)" v-text="page"></a>
+                    </li>
+                    <li class="next"><a href="javascript:;" v-on:click="goPage(pagination.nextPage)"><img src="../../img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/management/device/connect.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

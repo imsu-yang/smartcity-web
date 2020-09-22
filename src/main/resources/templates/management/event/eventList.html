@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='이벤트 목록'">
+<head>
+    <title th:text="${metaTit}">이벤트 목록</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="device_con01" id="eventList">
+        <div class="inner">
+            <div class="table_wrap list">
+                <div class="top_btn">
+                    <div class="right">
+                        <a href="#write" class="blue" v-on:click.prevent="onEvtWritMove"><img src="/img/table_wrap_plus_btn_white.png" alt="">이벤트 등록</a>
+                    </div>
+                </div>
+                <div class="table_scroll">
+                    <table class="w1000">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label class="checkbox_custom alone">
+                                        <input type="checkbox" name="allChkYn" v-model="allChkYn" />
+                                        <i></i>
+                                    </label>
+                                </th>
+                                <th>EVENT 구분</th>
+                                <th>EVENT ID</th>
+                                <th>EVENT 이름</th>
+                                <th>연관 디바이스</th>
+                                <th>STATUS</th>
+                                <th>상세정보</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in evtList" v-bind:key="item.evntId">
+                                <td>
+                                    <label class="checkbox_custom alone">
+                                        <input type="checkbox" name="chkYn" v-model="item.chkYn" /><i></i>
+                                    </label>
+                                </td>
+                                <td v-text="comCdVo.evtOccrDivMap[item.evntOccrDiv]"></td>
+                                <td v-text="item.evntId"></td>
+                                <td v-text="item.evntNm"></td>
+                                <td v-text="item.devName"></td>
+                                <td>
+                                    <div class="toggleBtn">
+                                        <a href="#on" class="on" v-bind:class="{ active: item.status == 'ON' }" v-on:click.prevent="onEvtStatClick(index, 'ON')">ON</a>
+                                        <a href="#off" class="off" v-bind:class="{ active: item.status == 'OFF' }" v-on:click.prevent="onEvtStatClick(index, 'OFF')">OFF</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="#read" v-on:click.prevent="onEvtReadMove(item.evntId)">상세정보 조회 <img src="/img/table_wrap_btn_arrow.png" alt=""></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="top_btn">
+                    <div class="left">
+                        <a href="#delete" class="type02" v-on:click.prevent="onEvtDelClick">삭제</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="#prev" v-on:click.prevent="onPageMove(prevPage)"><img src="/img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="idx in naviPageList" v-bind:class="{ on: idx == argVo.curPage }">
+                        <a href="#page" v-on:click.prevent="onPageMove(idx)" v-text="idx"></a>
+                    </li>
+                    <li class="next"><a href="#next" v-on:click.prevent="onPageMove(nextPage)"><img src="/img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argCurPage" name="argCurPage" th:value="${param.curPage}" />
+    </form>
+
+    <!-- 회원정보 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <form id="memberForm" name="memberForm" method="get">
+            <input type="hidden" id="authMbrSeq" name="authMbrSeq" th:value="${#authentication.principal.account.mbrSeq}" />
+        </form>
+    </th:block>
+    <!-- 회원정보 -->
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/management/event/eventCodeMixin.js}"></script>
+    <script type="text/javascript" th:src="@{/js/management/event/eventList.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/testbedLayout}"
+	  th:with="metaTit='테스트베드 소개'">
+<head>
+	<title th:text="${metaTit}">테스트베드 소개</title>
+	<link rel="stylesheet" href="../css/jquery.datetimepicker.css" type="text/css" media="all" />
+
+	<!-- user script -->
+	<th:block layout:fragment="user_script">
+		<script type="text/javascript" th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/plugin/jquery/jquery.datetimepicker.full.js}"></script>
+		<script type="text/javascript" th:src="@{/static/js/testbed/write.js}"></script>
+	</th:block>
+	<!-- //user script -->
+	<script type="text/javascript">
+		//onLoad
+		$(document).ready(function(){
+			if($("#gbn").val() == 1){
+				window.scrollTo(0, 1850);
+			}
+		});
+	</script>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+	<div class="wrap">
+		<!-- header -->
+		<form>
+			<input type="hidden" id="gbn" th:value="${gbn}" />
+		</form>
+		<!-- header //-->
+
+		<div class="content">
+			<div class="testbed_intro_con01">
+				<div class="text">
+					<p>미세먼지 관련 산업에 종사하는 국·내외 기업들에게<br/>
+					신제품/시제품의 기능과 성능을 실증할 수 있는 온·오프라인 공간을 제공합니다.<br/>
+					스마트시티 테스트베드를 신청하여 다양한 서비스를 이용해보세요.</p>
+					<a href="write">테스트베드 신청 <img src="../img/testbed_process_con01_arrow.png" alt="화살표"></a>
+				</div>
+			</div>
+			<div class="testbed_intro_con02">
+				<div class="inner">
+					<div class="top">
+						<p>시흥시 스마트시티 테스트베드는 미세먼지 관련 산업에 종사하는 국내 · 외 기업들에 신제품/시제품의 성능을 테스트할 수 있는 실내 ·외 공간을 제공합니다.<br/>
+						또한 커뮤니티를 통해 신제품을 홍보하고, 사용자의 니즈를 반영할 수 있는 의사소통의 공간을 마련합니다.</p>
+					</div>
+					<div class="bot_list">
+						<h5>주요 지원 항목</h5>
+						<ul>
+							<li>
+								<div class="img_box">
+									<img src="../img/testbed_intro_con02_img01.jpg" alt="">
+								</div>
+								<div class="text">
+									<span>01</span>
+									<h6>테스트 컨설팅</h6>
+									<p>설치방법(HW설치 연결), 테스트 플랫폼
+									연결에 대한 가이드라인을 제공하고,
+									테스트 베드 공간을 지정해줍니다.</p>
+								</div>
+							</li>
+							<li>
+								<div class="img_box">
+									<img src="../img/testbed_intro_con02_img02.jpg" alt="">
+								</div>
+								<div class="text">
+									<span>02</span>
+									<h6>실내·실외 테스트 장소 제공</h6>
+									<p>실외테스트에 앞서 장비 점검 및 장비
+									상태 모니터링을 할 수 있는 실내 실험실
+									공간(씨티랩)을 제공하고, 시흥시 정왕동
+									일대에 측정기를 배치하여 테스트 할 수
+									있는 공간을 제공합니다.</p>
+								</div>
+							</li>
+							<li>
+								<div class="img_box">
+									<img src="../img/testbed_intro_con02_img03.jpg" alt="">
+								</div>
+								<div class="text">
+									<span>03</span>
+									<h6>수집데이터 관리 및 모니터링</h6>
+									<p>테스트베드 플랫폼을 통해 디바이스의 
+									센싱 정보확인 및 데이터 확보가 가능하며,
+									기존 정왕동 수집 데이터와 비교 검토하여
+									제품의 개선점을 도출 할 수 있도록
+									지원합니다.</p>
+								</div>
+							</li>
+							<li>
+								<div class="img_box">
+									<img src="../img/testbed_intro_con02_img04.jpg" alt="">
+								</div>
+								<div class="text">
+									<span>04</span>
+									<h6>개발자와 소비자 간 커뮤니티</h6>
+									<p>미세먼지 관련 신제품을 홍보하고,
+									시흥시 소비자와의 커뮤니티를 통해
+									사용자의 니즈를 반영할 수 있는
+									의사소통의 공간을 제공합니다.</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="testbed_intro_con03">
+				<div class="inner">
+					<h4>테스트베드와 연동 가능한 프로토콜 규격</h4>
+					<div class="box">
+						<p>컨텐츠 영역</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+<!-- //content -->
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+</body>
+</html>

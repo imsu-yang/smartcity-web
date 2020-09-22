@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="ko">
+<head>
+    <th:block th:replace="~{fragment/commonHead :: commonHead}"></th:block>
+    <th:block th:replace="~{fragment/commonScript :: commonScript}"></th:block>
+</head>
+<body>
+<div class="wrap">
+    <div class="content">
+        <!-- sub_common -->
+        <div class="sub_common">
+            <div class="sub_visual" style="background-image:url('/img/sub_visual01.jpg')">
+                <div class="text">
+                    <h3>디바이스 관리</h3>
+                </div>
+            </div>
+            <div class="sub_text">
+                <div class="inner">
+                    <a th:href="@{/}" class="home_btn"><img src="/img/sub_text_home_btn.jpg" alt="홈으로"></a>
+                    <div class="depth_box depth01" id="menuMstWrap">
+                        <p>디바이스 관리</p>
+                        <ul class="silde_toggle" id="menuMstList">
+                            <li><a th:href="@{/testbed/intro}">테스트베드</a></li>
+                            <li><a th:href="@{/management/device/list}">디바이스 관리</a></li>
+                            <li><a th:href="@{/finedust/monitoring}">미세먼지 모니터링</a></li>
+                            <li><a th:href="@{/community/product/list}">커뮤니티</a></li>
+                        </ul>
+                    </div>
+                    <div class="depth_box depth02" id="menuDtlWrap">
+                        <p th:text="${metaTit}"></p>
+                        <ul class="silde_toggle" id="menuDtlList">
+                            <li><a th:href="@{/management/device/list}">디바이스 목록</a></li>
+                            <li><a th:href="@{/management/device/write}">디바이스 등록</a></li>
+                            <!--<li><a th:href="@{/management/device/connect}">디바이스 연결 상태</a></li>-->
+                            <li><a th:href="@{/management/event/list}">이벤트 조회</a></li>
+                            <li><a th:href="@{/management/event/write}">이벤트 등록</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //sub_common -->
+
+        <!-- sub_tit -->
+        <div class="sub_tit">
+            <div class="hr"></div>
+            <h4 th:text="${metaTit}"></h4>
+        </div>
+        <!-- //sub_tit -->
+
+        <!-- content -->
+        <th:block layout:fragment="content"></th:block>
+        <!-- //content -->
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{fragment/footer :: footer}"></th:block>
+    <!-- //footer -->
+</div>
+
+<th:block layout:fragment="user_include"></th:block>
+<th:block th:replace="~{fragment/layer :: body}"></th:block>
+<th:block th:replace="~{fragment/session :: body}"></th:block>
+<th:block layout:fragment="user_script"></th:block>
+</body>
+</html>

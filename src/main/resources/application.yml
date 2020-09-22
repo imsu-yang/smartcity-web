@@ -1,0 +1,109 @@
+server:
+  session:
+    timeout: 86400
+
+spring:
+  #개발계 배포시 설정 바꾸기.
+  profiles.active: local
+#  profiles.active: dev
+
+  application:
+    name: smartcity-admin
+  jackson:
+    default-property-inclusion: NON_NULL
+
+  devtools:
+    restart:
+      enabled: true
+
+    livereload:
+      enabled: true
+
+  #  datasource.url: jdbc:postgresql://175.113.135.40:6366/postgres?useUnicode=yes&characterEncoding=UTF-8
+  #  datasource.username: kma
+  #  datasource.password: kma9633!!
+  #  datasource.testOnBorrow: true
+  #  datasource.validationQuery: SELECT 1
+
+  jpa.hibernate.ddl-auto: none
+  jpa.properties.hibernate.jdbc.time_zone : Asia/Seoul
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  jpa.show-sql: false
+  jpa.properties.hibernate.format_sql: false
+  jackson.default-property-inclusion: NON_NULL
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    cache: false
+
+  messages:
+    basename: classpath:locale/messages
+    encoding: utf-8
+
+logging:
+  level:
+    root: info
+    co.kesti.smartcity: debug
+#  config: classpath:logback-spring.xml
+#  appender: CONSOLE
+
+upload:
+  dir: /upload/
+
+site:
+  name: 스마트시티 테스트베드
+
+mail:
+  host: smtp.naver.com
+  port: 465
+  user: 네이버@naver.com
+  name: 스마트시티 테스트베드
+  password: 비밀번호
+
+sms:
+  api:
+    key: 키
+    secret: 시크릿
+  from-tel-num: 0310001111
+
+---
+
+server.port: 9100
+
+spring:
+  profiles: local
+
+api:
+  host: http://localhost:9000/KESTI/v1.1
+  url: http://localhost:9000/TESTBED/v0.9
+
+vworld.key: ACA018E4-2B19-320B-8699-ACC551467E87
+
+---
+
+server.port: 8080
+
+spring:
+  profiles: dev
+
+api:
+  host: http://52.14.231.102:9000/KESTI/v1.1
+  url: http://52.14.231.102:9000/TESTBED/v0.9
+
+vworld.key: E509E5FB-AA8A-3C55-9319-EBE54B030920
+
+---
+
+spring:
+  profiles: prd
+
+api:
+  host: http://localhost:9000/KESTI/v1.1
+  url: http://localhost:9000/TESTBED/v0.9

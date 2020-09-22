@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="footer" id="footer">
+    <div class="inner">
+        <div class="quick_wrap" id="quckWrap">
+            <ul id="quckMenu">
+                <li><a href="/testbed/write">테스트베드 신청<i></i></a></li>
+                <li><a href="/management/device/write">디바이스 등록<i></i></a></li>
+                <li><a href="/finedust/monitoring">실시간 모니터링<i></i></a></li>
+            </ul>
+            <a href="#quickMenu" class="quick_btn roboto" id="btnQuck" onclick="quckMenuTgl(); return false;"><img src="/img/quick_btn.png" alt="QUICK">QUICK</a>
+        </div>
+        <a href="#top" class="top_btn roboto" onclick="window.scrollTo(0, 0); return false;"><img src="/img/top_btn_arrow.png" alt="맨위로">TOP</a>
+        <a href="index" class="logo"><img src="/img/ft_logo.png" alt="logo"></a>
+        <ul>
+            <li>환경과학기술(주)</li>
+            <li>Tel. 02 - 2113 - 0705</li>
+            <li>Fax. 02 - 6111 - 8433</li>
+            <li>사업자등록번호 : 114 - 81 - 68327</li>
+        </ul>
+        <p>COPYRIGHT 2020 SmartCity ALL RIGHTS</p>
+    </div>
+
+    <script type="text/javascript">
+        /**
+         * 퀵메뉴 토글
+         */
+        function quckMenuTgl() {
+            var quckMenuElmt = DocUtil.getElId("quckMenu");
+            var btnQuckElmt = DocUtil.getElId("btnQuck");
+
+            if (DocUtil.hasClass(quckMenuElmt, "on")) {
+                DocUtil.removeClass(quckMenuElmt, "on");
+                DocUtil.removeClass(btnQuckElmt, "on");
+            } else {
+                DocUtil.addClass(quckMenuElmt, "on");
+                DocUtil.addClass(btnQuckElmt, "on");
+            }
+        }
+
+        var quckWrapElmt = DocUtil.getElId("quckWrap");
+        var footElmt = DocUtil.getElId("footer");
+
+        // 퀵메뉴 스크롤 이벤트
+        window.addEventListener("scroll", function() {
+            var winTop = document.documentElement.scrollTop + window.innerHeight;
+            var ckTop = DocUtil.offset(footElmt).top;
+
+            if (winTop > ckTop) {
+                if (!DocUtil.hasClass(quckWrapElmt, "on")) {
+                    DocUtil.addClass(quckWrapElmt, "on");
+                }
+            } else {
+                if (DocUtil.hasClass(quckWrapElmt, "on")) {
+                    DocUtil.removeClass(quckWrapElmt, "on");
+                }
+            }
+        }, false);
+    </script>
+</div>
+</body>
+</html>

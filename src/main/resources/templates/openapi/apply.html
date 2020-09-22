@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/memberLayout}"
+      th:with="metaTit='오픈 API 신청'">
+<head>
+    <title th:text="${metaTit}">오픈 API 신청</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="member_con" id="apply">
+        <div class="inner">
+            <p class="title">오픈 api 신청할 수 있습니다
+            </p>
+            <div class="w490">
+                <div class="input_box">
+                    <div class="left">
+                        <input type="text" readonly name="mbrId" id="mbrId" v-model.trim="mbrId"  placeholder="아이디" />
+                        <input type="text" readonly name="token" v-model.trim="token"  placeholder="생성된 토큰" />
+                    </div>
+                    <div class="right">
+                        <a href="#login" class="roboto" v-on:click.prevent="apply">신청</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/openapi/apply.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/memberLayout}"
+      th:with="metaTit='일반 회원 가입'">
+<head>
+    <title th:text="${metaTit}">일반 회원 가입</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <form name="join" method="post" action="" enctype="text/plain" id="memberWrite">
+        <div class="join_write_con01">
+            <div class="inner">
+                <div class="agree_box">
+                    <div class="text">
+                        <p><b>제1장 총칙</b></p><br/>
+                        <p><b>제1조(목적)</b></p><br/>
+                        <p>본 약관은 주식회사 케이티(이하 회사)가 제공하는 olleh GiGA IoTMakers 관련 서비스를 이용함에 있어 회사와 회원간의 권리, 의무 및 책임사항 및 서비스 이용 조건 및 절차 절차 등을 규정함을 목적으로 합니다.</p><br/>
+
+                        <p><b>제2조 (약관의 효력 및 개정)</b></p><br/>
+                        <p>① 본 약관의 내용은 서비스 화면에 게시하거나 기타의 방법으로 회원에게 공시하고, 이에 동의한 회원이 서비스에 가입함으로써 효력이 발생합니다.</p>
+                        <p>② 본 약관은 회사가 필요하다고 인정되는 경우 대한민국 법령의 범위 내에서 개정할 수 있으며, 회사가 약관을 개정할 경우에는 적용예정일 및 개정사유를 명시하여 현행 약관과 함께 서비스 초기화면에 그 적용예정일 7일 전부터 공지합니다. 다만, 회원에게 불리하게 약관내용을 변경하는 경우에는 최소한 30일 이상의 사전 유예기간을 두고 공지하는 것 외에 이메일 발송 등 전자적 수단을 통해 별도로 통지합니다.</p>
+                        <p>③ 회원은 개정된 약관에 대해 동의하지 않을 권리가 있으며, 개정된 약관에 동의하지 않을 경우이용계약을 해지할 수 있습니다. 회원이 회사의 전항 단서에 따른 약관의 불리한 변경에 대하여 적용예정일까지 회사에게 부동의 의사를 표시하지 않거나 이용계약을 해지하지 않은 경우 변경된 약관을 승인한 것으로 봅니다.</p>
+                        <p>④ 회사는 개별 서비스에 대해서는 별도의 이용약관 및 규정, 세부 이용지침 등을 둘 수 있으며, 해당 내용이 본 약관과 상충할 경우에는 개별서비스 약관이 우선하여 적용됩니다.</p><br/>
+
+                        <p><b>제3조 (약관 외 준칙)</b></p><br/>
+                        <p>본 약관에 명시되지 않은 사항은 전기통신기본법, 전기통신사업법 등에서의 소비자보호에 관한 법률 등 관계법령 또는 상관례에 따릅니다.</p><br/>
+                    </div>
+                    <div class="bot">
+                        <label class="checkbox_custom" id="joinAgreYnLabel">
+                            <b>*</b>
+                            <input type="checkbox" name="agree_box01" v-model="mbrVo.joinAgreYn" true-value="Y" false-value="N" />
+                            <i></i>
+                            <span class="txt">회원가입약관에 동의합니다.</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="agree_box">
+                    <div class="text">
+                        <p><b>제1장 총칙</b></p><br/>
+                        <p><b>제1조 목적</b></p><br/>
+                        본 약관은 주식회사 케이티(이하 회사)가 제공하는 olleh GiGA IoTMakers 관련 서비스를 이용함에 있어 회사와 회원간의 권리, 의무 및 책임사항 및 서비스 이용 조건 및 절차 절차 등을 규정함을 목적으로 합니다.
+                        <br/>
+                        실현에 원대하고, 이 몸이 따뜻한 인생에 있는가? 가는 가치를 듣기만 모래뿐일 않는 하는 바이며, 있음으로써 뿐이다. 같으며, 미묘한 가치를 희망의 찾아 끝에 것은 동산에는 칼이다. 길지 끓는 같은 가지에 주는 쓸쓸하랴? 풀이 평화스러운 곳으로 동력은 커다란 것이다. 원대하고, 위하여서, 밝은 아름다우냐? 우리의 않는 아니더면, 철환하였는가? 동산에는 꽃이 바로 방지하는 노년에게서 있는가? 광야에서 대중을 실로 트고, 끓는다. 그들에게 굳세게 능히 그들의 길을 그리하였는가?
+                        <br/>
+                        어디 우리의 것은 운다. 청춘의 무한한 뜨고, 속에서 소리다.이것은 봄날의 그들은 이 얼음과 사막이다. 이상, 가치를 부패를 힘차게 실현에 피가 희망의 쓸쓸하랴? 기쁘며, 품에 끝까지 우리 있음으로써 것이다. 가진 남는 동산에는 끓는 불어 이상의 살 쓸쓸하랴? 품고 커다란 속에 끓는다. 것은 그들의 고행을 칼이다. 방지하는 이상을 웅대한 설산에서 있으며, 열락의 뛰노는 피다. 피가 주는 위하여, 얼음과 끝에 만천하의 그들은 가는 새가 듣는다. 품으며, 새 몸이 너의 것이다.
+                    </div>
+                    <div class="bot">
+                        <label class="checkbox_custom" id="plcyAgreYnLabel" >
+                            <b>*</b>
+                            <input type="checkbox" name="agree_box02" v-model="mbrVo.plcyAgreYn" true-value="Y" false-value="N" />
+                            <i></i>
+                            <span class="txt">개인정보취급방침에 동의합니다.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="join_write_con02">
+            <div class="inner">
+                <div class="table_wrap">
+                    <p>(<span class="red">*</span> 필수입력항목)</p>
+                    <table>
+                        <colgroup>
+                            <col width="200px" />
+                            <col width="*" />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th><i>*</i>아이디</th>
+                                <td>
+                                    <input type="text" class="w280" name="mbrId" id="mbrId" v-model.trim="mbrVo.mbrId" maxlength="12" />
+                                    <a href="#dupCheck" v-on:click.prevent="onMbrIdDupClick">ID 중복확인</a>
+                                    <span>※ 영문, 숫자 조합 6~12자리</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>이름</th>
+                                <td><input type="text" class="w200" name="userNm" id="userNm" v-model.trim="mbrVo.userNm" maxlength="30" /></td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>비밀번호</th>
+                                <td>
+                                    <input type="password" class="w280" name="mbrPwd" id="mbrPwd" v-model="mbrVo.mbrPwd" maxlength="18" />
+                                    <span>※ 영문, 숫자 및 특수문자 조합 8~18자</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>비밀번호 확인</th>
+                                <td>
+                                    <input type="password" class="w280" name="mbrPwdChk" id="mbrPwdChk" v-model="mbrVo.mbrPwdChk" maxlength="18" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>이메일 주소</th>
+                                <td>
+                                    <input type="text" class="email" name="emailId" id="emailId" v-model.trim="mbrVo.emailId" maxlength="20" />
+                                    <span class="or_text">@</span>
+                                    <input type="text" class="email" name="emailDomn" id="emailDomn" v-model.trim="mbrVo.emailDomn" maxlength="15" />
+                                    <select name="email_select" id="email_select" v-on:change="onEmilDomnChange($event.target.value)">
+                                        <option value="">직접입력</option>
+                                        <option value="hanmail.net">다음</option>
+                                        <option value="naver.com">네이버</option>
+                                        <option value="nate.com">네이트</option>
+                                        <option value="yahoo.co.kr">야후</option>
+                                        <option value="lycos.co.kr">라이코스</option>
+                                        <option value="paran.com">파란</option>
+                                        <option value="hanafos.com">하나포스</option>
+                                        <option value="hotmail.com">핫메일</option>
+                                        <option value="empal.com">엠팔</option>
+                                        <option value="korea.com">코리아닷컴</option>
+                                        <option value="dreamwiz.com">드림위즈</option>
+                                        <option value="freechal.com">프리첼</option>
+                                        <option value="hanmir.com">한미르</option>
+                                        <option value="gmail.com">G메일</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>휴대전화</th>
+                                <td>
+                                    <!--<input type="text" class="w100" name="mphonNo1" id="mphonNo1" v-bind:value="mbrVo.mphonNo1" v-on:input="ComUtil.onNumInput(mbrVo, 'mphonNo1', $event.target)" maxlength="3" />-->
+                                    <select name="mphonNo1" id="mphonNo1" v-on:change="onMphonNo1Change($event.target.value)">
+                                        <option value="010">010</option>
+                                        <option value="011">011</option>
+                                        <option value="016">016</option>
+                                        <option value="017">017</option>
+                                        <option value="018">018</option>
+                                        <option value="019">019</option>
+                                        <option value="013">013</option>
+                                        <option value="0130">0130</option>
+                                    </select>
+                                    <span class="or_text">-</span>
+                                    <input type="text" class="w100" name="mphonNo2" id="mphonNo2" v-bind:value="mbrVo.mphonNo2" v-on:input="ComUtil.onNumInput(mbrVo, 'mphonNo2', $event.target)" maxlength="4" />
+                                    <span class="or_text">-</span>
+                                    <input type="text" class="w100" name="mphonNo3" id="mphonNo3" v-bind:value="mbrVo.mphonNo3" v-on:input="ComUtil.onNumInput(mbrVo, 'mphonNo3', $event.target)" maxlength="4" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이메일 / SMS 수신허용</th>
+                                <td>
+                                    <label class="checkbox_custom">
+                                        <input type="checkbox" name="emailRecptnYn" id="emailRecptnYn" v-model="mbrVo.emailRecptnYn" true-value="Y" false-value="N" />
+                                        <i></i>
+                                        <span class="txt">이메일 수신 허용</span>
+                                    </label>
+                                    <label class="checkbox_custom">
+                                        <input type="checkbox" name="smsRecptnYn" id="smsRecptnYn" v-model="mbrVo.smsRecptnYn" true-value="Y" false-value="N" />
+                                        <i></i>
+                                        <span class="txt">SMS 수신 허용</span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn_wrap sm">
+                    <a href="#join" class="blue" v-on:click.prevent="procJoin">확인</a>
+                    <a href="#cancel" v-on:click.prevent="onCnclClick">취소</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/member/write.js}"></script>
+    <script src="/static/js/plugin/jquery/jquery-3.5.1.min.js"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}"
+      th:with="metaTit='나의 디바이스'">
+<head>
+    <title th:text="${metaTit}">나의 디바이스</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="myDeviceList" class="mypage_device_con01">
+        <div class="inner">
+            <div class="device_list">
+                <ul>
+
+                    <li v-for="device in pagination.contents" v-on:click="goMyDevice(device.devId)">
+                        <div class="top">
+                            <i><img src="../../img/device_list_icon01.png" alt=""></i>
+                            <p v-text="device.devName"></p>
+                        </div>
+                        <div class="text" >
+                            <dl>
+                                <dt>디바이스 ID</dt>
+                                <dd v-text="device.devId"></dd>
+                            </dl>
+                            <dl>
+                                <dt>측정 항목</dt>
+                                <dd v-text="device.protocolRuleName"></dd>
+                            </dl>
+                            <dl>
+                                <dt>연결 상태</dt>
+                                <dd v-text="device.connStatus"></dd>
+                            </dl>
+                            <dl>
+                                <dt>설치 위치</dt>
+                                <dd>위도 : <span v-text="device.latitVal"></span><br/>경도 : <span v-text="device.lngitVal"></span></dd>
+                            </dl>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="pager_wrap">
+                <ul>
+                    <li class="prev"><a href="javascript:;" v-on:click="goPage(pagination.previousPage)"><img src="../../img/pager_wrap_prev.png" alt="이전으로"></a></li>
+                    <li v-for="page in pagination.pages" v-bind:class="{'on': page == (pagination.page) }">
+                        <a href="javascript:;" v-on:click="goPage(page)" v-text="page"></a>
+                    </li>
+                    <li class="next"><a href="javascript:;" v-on:click="goPage(pagination.nextPage)"><img src="../../img/pager_wrap_next.png" alt="다음으로"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/mypage/mydevice/list.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/managementLayout}"
+      th:with="metaTit='디바이스 등록'">
+<head>
+    <title th:text="${metaTit}">디바이스 등록</title>
+    <script th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{http://map.vworld.kr/js/vworldMapInit.js.do(version=2.0, apiKey=${vworldKey})}"></script>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="deviceWrite">
+        <div class="device_con01">
+            <div class="inner">
+                <form name="join" method="post" action="" enctype="text/plain">
+                    <div class="table_wrap">
+                        <h4>기본 정보 <p>(<span class="red">*</span>필수입력항목)</p></h4>
+                        <table>
+                            <colgroup>
+                                <col width="180px" />
+                                <col width="" />
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th><i>*</i>디바이스 이름</th>
+                                <td>
+                                    <input type="text" placeholder="텍스트" name="deviceName" id="deviceName" v-model="device.devName" @keypress="isWriteCheck($event)" th:maxlength="20"/>
+                                    <span>※ 최대 20자까지 한글, 영문, 숫자, 띄어쓰기가 가능하며, 기호는 사용 불가합니다.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>디바이스 ID</th>
+                                <td>
+                                    <input type="text" placeholder="텍스트" class="w100p" name="deviceID" id="deviceID" v-model="device.devId" @keypress="isWriteCheck($event)" th:maxlength="20"/>
+                                    <span>※ 최대 20자까지 한글, 영문, 숫자, 띄어쓰기가 가능하며, 기호는 사용 불가합니다.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>디바이스 패스워드</th>
+                                <td>
+                                    <input type="password" placeholder="텍스트" class="w100p" name="devicePW" id="devicePW" v-model="device.devPassword" th:maxlength="20"/>
+                                    <span>※ 9~12자 영어, 숫자만 가능하며, 한글, 기호, 띄어쓰기는 사용 불가합니다.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>측정기 종류</th>
+                                <td>
+                                    <label class="radio_custom" v-for="item in prdtTypes"  >
+                                        <input type="radio" name="list" v-model="device.prdtType" v-bind:value="item.cdDtlKey.dtlCd"/>
+                                        <i></i>
+                                        <span class="txt" v-text="item.dtlCdNm"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기업명</th>
+                                <td>
+                                    <input type="text" id="manufacturerName" :disabled="popup.manufacturer.searchMode" v-model="device.manufacturerName" placeholder="개인장비의 경우 직접 입력을 선택하세요." class="w-smbutton02"/>
+                                    <a href="javascript:;"  class="sm" v-on:click="showManufacturerPopup"><img src="../../img/table_search_btn.png" alt="">검색</a><a href="javascript:;" class="sm" v-on:click="writeManufacturer">직접입력</a><span>※ 9~12자 영어, 숫자만 가능하며, 한글, 기호, 띄어쓰기는 사용 불가합니다.</span></td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>프로토콜 구분</th>
+                                <td>
+                                    <label class="radio_custom">
+                                        <input type="radio" v-model="device.protocolType" value="표준"/>
+                                        <i></i>
+                                        <span class="txt">표준</span>
+                                    </label>
+                                    <label class="radio_custom">
+                                        <input type="radio" v-model="device.protocolType" value="비표준"/>
+                                        <i></i>
+                                        <span class="txt">비표준</span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i>*</i>프로토콜 유형</th>
+                                <td>
+                                    <select name="protocolRule" id="protocolRule" class="w100p" v-model="device.protocolRule">
+                                        <option v-for="protocol in protocolRules" v-bind:value="protocol.cdDtlKey.dtlCd" v-text="protocol.dtlCdNm"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table_wrap mt-40">
+                        <h4>상세정보 <p>(선택입력)</p></h4>
+                        <table>
+                            <colgroup>
+                                <col width="180px" />
+                                <col width="" />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>디바이스 이미지</th>
+                                    <td>
+                                        <input type="file" v-model="device.devImgPath" placeholder="이미지"   ref="imageFile"
+                                               v-on:change="handleImageFileUpload()"/>
+                                        <span>첨부파일은 10MB까지 가능합니다.</span>
+                                    </td>
+                                </tr>
+
+                            <!-- 2020.09.14 김은영사원 요청 -->
+                            <!-- <tr>
+                                <th>사용자 정의 모델명</th>
+                                <td>
+                                    <input type="text" placeholder="텍스트" class="w-smbutton01" v-model="device.userDefName"/>
+                                    <a href="javascript:;" class="sm">수정</a>
+                                    <span>사용자 정의 모델명은 디바이스 일괄 등록 시 기준정보로 활용됩니다.(미입력 시 디바이스명과 동일)</span>
+                                </td>
+                            </tr> -->
+                                <tr>
+                                    <th><i>*</i>위치</th>
+                                    <td>
+                                        <input type="text" name="deviceLoc" class="w-smbutton03" v-model="device.location" readonly/><a href="javascript:;" v-on:click="showMyDevicePopup" class="sm"><img src="../../img/table_search_btn.png" alt="">검색</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table_wrap mt-40">
+                        <h4>비교 디바이스</h4>
+                        <table>
+                            <colgroup>
+                                <col width="180px" />
+                                <col width="" />
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th>비교 디바이스</th>
+                                <td>
+                                    <ul class="device_btn_wrap">
+                                        <li>
+                                            <a href="javascript:;" v-for="(device, index) in device.addedCompareDevices"  v-bind:value="device.devId" v-on:click="showCompareDevicePopup(device.devId)" v-text="device.devName"></a>
+
+
+                                            <a href="javascript:;" class="roboto minus" v-on:click="deleteCompareDevice">-</a>
+                                            <a href="javascript:;" class="roboto plus" v-on:click="showCompareDevicesPopup">+</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="btn_wrap sm">
+                        <a href="javascript:;" class="blue" v-on:click="write">등록</a>
+                        <a href="javascript:;" v-on:click="cancel">취소</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup_bg"  v-bind:style="{ display: showPopupBg }"></div>
+<!--        <div class="popup_box big" id="locationSearch" style="width: 1000px; heigh:800px;"  v-bind:style="{ display: popup.map.show }">-->
+        <div class="popup_box big" id="" v-bind:style="{ display: popup.deviceMap.show }">
+            <div class="top">
+                <p>좌표검색</p>
+                <a href="javascript:;" class="popup_x_btn" v-on:click="hideMapPopup"><img src="../../img/popup_x_btn.png" alt=""></a>
+            </div>
+            <div class="text">
+                <div class="map_box">
+                    <div id="deviceMap" style="width: 80%; height:500px;"></div>
+                    <div class="map_search_box" style="display: none;">
+                        <a href="javascript:;"><img src="../../img/map_search_btn.png" alt=""></a>
+                        <input type="text" placeholder="좌표검색">
+                    </div>
+                    <div class="map_poket">
+                        <ul>
+                            <li>
+                                위도:<span v-text="popup.deviceMap.latitude"></span><br>
+                                경도:<span v-text="popup.deviceMap.longitude"></span>
+                            </li>
+                            <br/>
+                            <li>경기도<i><img src="../../img/map_poket_arrow.png" alt=""></i>시흥시<i><img src="../../img/map_poket_arrow.png" alt=""></i>연성동</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="btn_wrap">
+                    <a href="javascript:;" class="blue" v-on:click="selectMyDeviceLocation">확인</a>
+                </div>
+            </div>
+        </div>
+        <!-- 좌표검색 팝업 //-->
+
+        <!-- 비교디바이스선택 팝업 -->
+        <div class="popup_box big" id="comparisonDevice" v-bind:style="{ display: popup.compareDeviceMap.show }">
+            <div class="top">
+                <p>비교 디바이스 선택</p>
+                <a href="javascript:;" class="popup_x_btn" v-on:click="hideMapPopup"><img src="../../img/popup_x_btn.png" alt=""></a>
+            </div>
+            <div class="text">
+                <div class="map_box">
+                    <div id="compareDeviceMap" style="width: 80%; height:500px;"></div>
+                    <!-- 개발 API 지도 추가 //-->
+<!--                    <div class="map_search_box">-->
+<!--                        <a href="javascript:;"><img src="../../img/map_search_btn.png" alt=""></a>-->
+<!--                        <input type="text" placeholder="좌표검색">-->
+<!--                    </div>-->
+                    <div class="map_poket">
+                        <ul>
+                            <li>경기도<i><img src="../../img/map_poket_arrow.png" alt=""></i>시흥시<i><img src="../../img/map_poket_arrow.png" alt=""></i>연성동</li>
+                        </ul>
+                    </div>
+                    <div class="state_label">
+                        <ul>
+                            <li>
+                                <div class="icon_box">
+                                    <span class="t">T</span>
+                                    <img src="../../img/point_icon03.png" alt="휴대형">
+                                </div>
+                                <span>내 디바이스</span>
+                            </li>
+                            <li>
+                                <div class="icon_box">
+                                    <img src="../../img/point_icon03.png" alt="휴대형">
+                                </div>
+                                <span>비교 디바이스</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn_wrap">
+                    <a href="javascript:;" class="blue" v-on:click="hideMapPopup">확인</a>
+                </div>
+            </div>
+        </div>
+        <!-- 비교디바이스선택 팝업 //-->
+
+        <!-- 기업명 검색 팝업 -->
+        <div class="popup_box" id="searchPop" v-bind:style="{ display: popup.manufacturer.show }">
+            <div class="top">
+                <p>기업명 검색</p>
+                <a href="javascript:;" class="popup_x_btn" v-on:click="hideManufacturerPopup"><img src="../../img/popup_x_btn.png" alt=""></a>
+            </div>
+            <div class="text">
+                <div class="search_popup">
+                    <div class="box">
+                        <p>기업명:</p>
+                        <div class="right">
+                            <input type="text" id="searchKeyword" v-model="popup.manufacturer.keyword" value="삼성"/>
+                            <a href="javascript:;" v-on:click="searchManufacturer"><img src="../../img/table_search_btn02.png" alt="">검색</a>
+                        </div>
+                    </div>
+                    <div class="keyword_wrap">
+                        <p v-for="item in popup.manufacturer.searchList" v-on:click="selectManufacturer(item.cdDtlKey.dtlCd, item.dtlCdNm)" v-text="item.dtlCdNm"></p>
+<!--                        <p>신<span class="keyup_text">삼성</span>그룹</p>-->
+                    </div>
+                    <div class="not_data" v-bind:style="{ display: popup.manufacturer.searchNone }">
+                        <p>검색 결과가 없습니다.</p>
+                        <span>* 검색 결과가 없을 경우 ‘직접입력’을 선택하세요. </span>
+                    </div>
+                </div>
+                <div class="btn_wrap sm">
+                    <a href="javascript:;" class="blue" v-on:click="writeSearchManufacturer">등록</a>
+                    <a href="javascript:;" class="" v-on:click="hideManufacturerPopup">닫기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="argForm" name="argForm" method="get">
+        <input type="hidden" id="argDevId" name="argDevId" th:value="${param.devId}" />
+    </form>
+    <!-- 기업명 검색 팝업 //-->
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/management/device/write.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

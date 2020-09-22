@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/communityLayout}"
+      th:with="metaTit='제품등록'">
+<head>
+    <title th:text="${metaTit}">제품 등록</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="productWrite" class="device_con01">
+        <div class="inner">
+            <form name="product" method="post" action="" enctype="text/plain">
+                <div class="table_wrap">
+                    <h4>제품 소개 등록 <p>(<span class="red">*</span>필수입력항목)</p></h4>
+                    <table>
+                        <colgroup>
+                            <col width="180px" />
+                            <col width="" />
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th><i>*</i>디바이스 이름</th>
+                            <td>
+                                <input id="prdtName"  name="prdtName" type="text" placeholder="텍스트" v-model="product.prdtName" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i>*</i>측정기 종류</th>
+                            <td>
+                                <label class="radio_custom" v-for="item in prdtTypes"  >
+                                    <input type="radio" name="list" v-model="product.prdtType"  v-bind:value="item.cdDtlKey.dtlCd">
+                                    <i></i>
+                                    <span class="txt" v-text="item.dtlCdNm"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i>*</i>측정항목</th>
+                            <td>
+                                <select id="obsItem" name="obsItem" class="w100p" v-model="product.obsItem">
+                                    <option value="all" >전체</option>
+                                    <option v-for="item in obsItems" v-bind:value="item.cdDtlKey.dtlCd" v-text="item.dtlCdNm"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>제품 사진</th>
+                            <td>
+                                <input id="prdtImgPath" name="prdtImgPath" type="file"  ref="imageFile"
+                                       v-on:change="handleImageFileUpload()">
+                                <span>첨부파일은 10MB까지 가능합니다.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i>*</i>내용</th>
+                            <td>
+                                <textarea cols="30" rows="10" id="prdtContent" name="prdtContent" placeholder="내용텍스트" v-model="product.prdtContents"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>첨부 파일</th>
+                            <td>
+                                <input id="attachedFilePath" name="attachedFilePath" type="file"  ref="attachedFile" v-on:change="handleAttachedFileUpload()">
+                                <span>첨부파일은 50MB까지 가능합니다.</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn_wrap sm">
+                    <a href="javascript:;" class="blue" v-on:click="write">등록</a>
+                    <a href="javascript:;" v-on:click="cancel();">취소</a>
+                </div>
+            </form>
+        </div>
+
+        <form id="argForm" name="argForm" method="get">
+            <input type="hidden" id="argPrdtSeq" name="argPrdtSeq" th:value="${param.prdtSeq}" />
+        </form>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/static/js/community/product/write.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

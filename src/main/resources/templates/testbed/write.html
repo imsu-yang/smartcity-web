@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/testbedLayout}"
+      th:with="metaTit='신청하기'">
+<head>
+    <title th:text="${metaTit}">신청하기</title>
+    <link rel="stylesheet" href="../css/jquery.datetimepicker.css" type="text/css" media="all" />
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div id="testbedWrite" class="testbed_write_con01">
+        <div class="inner">
+            <div class="table_wrap">
+                <table>
+                    <colgroup>
+                        <col width="140px"/>
+                        <col width="*"/>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>날짜</th>
+                        <td>
+                            <div class="cal_box">
+                                <input type="text" class="w100p" id="regstDt">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이용자</th>
+                        <td>
+                            <input type="text" class="w100p" id="regstName" v-model="regstName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>핸드폰 번호</th>
+                        <td>
+                            <input type="text" class="w100p"  v-model="rphonNo">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td>
+                            <input type="text" class="w100p" v-model="rEmail">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>기업명</th>
+                        <td>
+                            <input type="text" class="w100p" v-model="companyName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이용목적</th>
+                        <td>
+                            <textarea name=""  cols="30" rows="10" id="usePurpose" v-model="usePurpose"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn_wrap">
+                <a href="javascript:;" class="blue" v-on:click="write()">신청하기</a>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user include -->
+<th:block layout:fragment="user_include">
+</th:block>
+<!-- //user include -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/plugin/jquery/jquery-3.5.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/plugin/jquery/jquery.datetimepicker.full.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/testbed/write.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>

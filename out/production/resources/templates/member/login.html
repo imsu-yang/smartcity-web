@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/memberLayout}"
+      th:with="metaTit='로그인'">
+<head>
+    <title th:text="${metaTit}">로그인</title>
+</head>
+<body>
+<!-- content -->
+<th:block layout:fragment="content">
+    <div class="member_con" id="memberLogin">
+        <div class="inner">
+            <p class="title">아이디와 비밀번호를 입력해주세요.<br/>
+            아직 회원이 아니신 분들은 회원가입 후 서비스를 이용하실 수 있습니다.</p>
+            <div class="w490">
+                <div class="input_box">
+                    <div class="left">
+                        <input type="text" name="mbrId" id="mbrId" v-model.trim="mbrId" v-on:keyup.enter="procLogn" placeholder="아이디" />
+                        <input type="password" name="mbrPwd" id="mbrPwd" v-model="mbrPwd" v-on:keyup.enter="procLogn" placeholder="비밀번호" />
+                    </div>
+                    <div class="right">
+                        <a href="#login" class="roboto" v-on:click.prevent="procLogn">LOGIN</a>
+                    </div>
+
+                    <!-- 임시 버튼-->
+                    <div class="left"><a href="#login" class="blue" v-on:click.prevent="procLognAdminPass" style="color:red">Admin계정으로 로그인통과</a></div>
+                    <!-- 임시 버튼-->
+                    <div class=""><a href="#login" class="blue" v-on:click.prevent="procLognPersonPass" style="color:green">일반계정으로 로그인통과</a></div>
+                </div>
+                <div class="bot_btn">
+                    <label class="checkbox_custom">
+                        <input type="checkbox">
+                        <i></i>
+                        <span class="txt">로그인 상태 유지</span>
+                    </label>
+                    <ul>
+                        <li><i><img src="/img/idFind_icon.png" alt="icon"></i><a href="/member/idFind">아이디 찾기</a> · <a href="/member/passwordFind">비밀번호 찾기</a></li>
+                        <li><a href="/member/join"><i><img src="/img/join_icon.png" alt="icon"></i>회원가입</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!-- //content -->
+
+<!-- user script -->
+<th:block layout:fragment="user_script">
+    <script type="text/javascript" th:src="@{/js/member/login.js}"></script>
+</th:block>
+<!-- //user script -->
+</body>
+</html>
